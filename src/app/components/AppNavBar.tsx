@@ -27,8 +27,8 @@ function AppNavBar() {
 
 
   return (
-    <AppBar position="sticky">
-      <Container maxWidth="xl" sx={{ backgroundColor: '#000000' }}>
+    <AppBar position="sticky" sx={{ backgroundColor: '#FF5C8D' }}>
+      <Container maxWidth="xl" >
         <Toolbar disableGutters >
           {/* Mobile navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
