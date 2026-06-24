@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import AppNavBar from "@/app/components/AppNavBar";
 import "./globals.css";
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -28,7 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AppNavBar />
+        {children}
+      </body>
     </html>
   );
 }

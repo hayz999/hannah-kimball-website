@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react';
+import Link from 'next/link';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,7 +13,20 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Home', 'Music', 'About Me', 'Contact'];
+type NavPage = {
+  label: string;
+  href: string;
+  ariaLabel: string;
+};
+
+const pages: NavPage[] = [
+  { label: 'Home', href: '/', ariaLabel: 'Go to home page' },
+  { label: 'About', href: '/about', ariaLabel: 'Go to about page' },
+  { label: 'Choral Directing', href: '/choral-directing', ariaLabel: 'Go to choral directing page' },
+  { label: 'Compositions', href: '/compositions', ariaLabel: 'Go to compositions page' },
+  { label: 'Arrangements', href: '/arrangements', ariaLabel: 'Go to arrangements page' },
+  { label: 'Contact', href: '/contact', ariaLabel: 'Go to contact page' },
+];
 
 function AppNavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -59,8 +73,14 @@ function AppNavBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem
+                  key={page.href}
+                  component={Link}
+                  href={page.href}
+                  onClick={handleCloseNavMenu}
+                  aria-label={page.ariaLabel}
+                >
+                  <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -69,11 +89,14 @@ function AppNavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'space-around' }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.href}
+                component={Link}
+                href={page.href}
                 onClick={handleCloseNavMenu}
+                aria-label={page.ariaLabel}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
