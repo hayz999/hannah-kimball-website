@@ -1,7 +1,8 @@
-'use client'
+'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 
 type NavPage = {
   label: string;
@@ -20,15 +22,16 @@ type NavPage = {
 };
 
 const pages: NavPage[] = [
-  { label: 'Home', href: '/', ariaLabel: 'Go to home page' },
-  { label: 'About', href: '/about', ariaLabel: 'Go to about page' },
-  { label: 'Choral Directing', href: '/choral-directing', ariaLabel: 'Go to choral directing page' },
-  { label: 'Compositions', href: '/compositions', ariaLabel: 'Go to compositions page' },
-  { label: 'Arrangements', href: '/arrangements', ariaLabel: 'Go to arrangements page' },
-  { label: 'Contact', href: '/contact', ariaLabel: 'Go to contact page' },
+  { label: 'Home',             href: '/',                ariaLabel: 'Go to home page' },
+  { label: 'About',            href: '/about',           ariaLabel: 'Go to about page' },
+  { label: 'Choral Directing', href: '/choral-directing',ariaLabel: 'Go to choral directing page' },
+  { label: 'Compositions',     href: '/compositions',    ariaLabel: 'Go to compositions page' },
+  { label: 'Arrangements',     href: '/arrangements',    ariaLabel: 'Go to arrangements page' },
+  { label: 'Contact',          href: '/contact',         ariaLabel: 'Go to contact page' },
 ];
 
-function AppNavBar() {
+export default function AppNavBar() {
+  const pathname = usePathname();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -39,38 +42,68 @@ function AppNavBar() {
     setAnchorElNav(null);
   };
 
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#FF5C8D' }}>
-      <Container maxWidth="xl" >
-        <Toolbar disableGutters >
-          {/* Mobile navigation */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
+    <AppBar position="sticky" role="navigation" aria-label="Main navigation">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters sx={{ minHeight: { xs: 56, md: 64 } }}>
+          {/* Brand name — visible on all viewports */}
+          <Box
+            component={Link}
+            href="/"
+            aria-label="Hannah Kimball — home"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.75,
+              textDecoration: 'none',
+              color: 'white',
+              mr: { xs: 'auto', md: 4 },
+            }}
+          >
+            <MusicNoteIcon fontSize="small" aria-hidden="true" />
+            <Typography
+              variant="h6"
+              component="span"
+              sx={{ fontWeight: 700, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}
+            >
+              Hannah Kimball
+            </Typography>
+          </Box>
+
+          {/* Mobile hamburger */}
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
+              aria-label="Open navigation menu"
+              aria-controls="mobile-nav-menu"
               aria-haspopup="true"
+              aria-expanded={Boolean(anchorElNav)}
               onClick={handleOpenNavMenu}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id="mobile-nav-menu"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
+              slotProps={{
+                paper: {
+                  sx: {
+                    backgroundColor: '#3D1A6E',
+                    color: 'white',
+                    minWidth: 200,
+                  },
+                },
+              }}
             >
               {pages.map((page) => (
                 <MenuItem
@@ -79,22 +112,51 @@ function AppNavBar() {
                   href={page.href}
                   onClick={handleCloseNavMenu}
                   aria-label={page.ariaLabel}
+                  aria-current={isActive(page.href) ? 'page' : undefined}
+                  sx={{
+                    color: 'white',
+                    fontWeight: isActive(page.href) ? 700 : 400,
+                    borderLeft: isActive(page.href) ? '3px solid #F59E0B' : '3px solid transparent',
+                    '&:hover': { backgroundColor: 'rgba(255,255,255,0.12)' },
+                  }}
                 >
-                  <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
+                  {page.label}
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          {/* Desktop navigation */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'space-around' }}>
+
+          {/* Desktop nav links */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, ml: 'auto' }}>
             {pages.map((page) => (
               <Button
                 key={page.href}
                 component={Link}
                 href={page.href}
-                onClick={handleCloseNavMenu}
                 aria-label={page.ariaLabel}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                aria-current={isActive(page.href) ? 'page' : undefined}
+                sx={{
+                  color: 'white',
+                  fontWeight: isActive(page.href) ? 700 : 400,
+                  px: 1.5,
+                  py: 1,
+                  position: 'relative',
+                  borderRadius: 1,
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    bottom: 4,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: isActive(page.href) ? '60%' : '0%',
+                    height: '2px',
+                    backgroundColor: '#F59E0B',
+                    transition: 'width 0.25s ease',
+                    borderRadius: '1px',
+                  },
+                  '&:hover::after': { width: '60%' },
+                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                }}
               >
                 {page.label}
               </Button>
@@ -105,4 +167,3 @@ function AppNavBar() {
     </AppBar>
   );
 }
-export default AppNavBar;

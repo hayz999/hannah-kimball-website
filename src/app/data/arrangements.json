@@ -1,0 +1,48 @@
+{
+  "songs": [
+    {
+      "id": "ave-verum-corpus",
+      "title": "Ave Verum Corpus",
+      "originalComposer": "Wolfgang Amadeus Mozart",
+      "description": "A fresh arrangement of Mozart's beloved motet for SATB chorus and piano. Hannah's arrangement maintains the reverence of the original while adding subtle harmonic color and a more accessible piano reduction, making this timeless work accessible to high school and community choirs.",
+      "lyrics": "Ave verum corpus\nNatum de Maria Virgine\nVere passum, immolatum\nIn cruce pro homine\n\nCujus latus perforatum\nUnda fluxit et sanguine\nEsto nobis praegustatum\nIn mortis examine",
+      "voiceParts": ["SSAA", "SATB"],
+      "pdfUrl": null,
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "audioUrl": null
+    },
+    {
+      "id": "simple-gifts",
+      "title": "Simple Gifts",
+      "originalComposer": "Traditional Shaker Hymn",
+      "description": "A multi-layered arrangement of the beloved Shaker hymn for SSA voices. This arrangement builds from a single unison melody into a rich three-part texture with an original counter-melody, perfect for youth choirs and women's ensembles looking for accessible yet musically interesting programming.",
+      "lyrics": "'Tis the gift to be simple\n'Tis the gift to be free\n'Tis the gift to come down\nWhere we ought to be\n\nAnd when we find ourselves\nIn the place just right\n'Twill be in the valley\nOf love and delight\n\nWhen true simplicity is gained\nTo bow and to bend\nWe will not be ashamed\nTo turn, turn will be our delight\nTill by turning, turning\nWe come round right",
+      "voiceParts": ["SSA"],
+      "pdfUrl": null,
+      "videoUrl": null,
+      "audioUrl": null
+    },
+    {
+      "id": "down-to-the-river",
+      "title": "Down to the River to Pray",
+      "originalComposer": "Traditional American Spiritual",
+      "description": "A gospel-influenced arrangement of this traditional spiritual for SATB with optional solo passages. The arrangement retains the call-and-response character of the original while adding rich jazz-inflected harmonies and an improvised feel. Ideal for both sacred and secular concert programming.",
+      "lyrics": "As I went down in the river to pray\nStudying about that good ol' way\nAnd who shall wear the starry crown\nGood Lord, show me the way\n\nO sisters, let's go down\nLet's go down, come on down\nO sisters, let's go down\nDown in the river to pray",
+      "voiceParts": ["SATB"],
+      "pdfUrl": null,
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "audioUrl": null
+    },
+    {
+      "id": "somewhere-over-the-rainbow",
+      "title": "Somewhere Over the Rainbow",
+      "originalComposer": "Harold Arlen",
+      "description": "An intimate SSA arrangement of this beloved classic, drawing inspiration from Israel Kamakawiwoʻole's iconic ukulele version. Hannah's arrangement features gentle part writing and a flowing accompaniment that transforms this familiar melody into an introspective choral gem.",
+      "lyrics": "Somewhere over the rainbow\nWay up high\nAnd the dreams that you dreamed of\nOnce in a lullaby\n\nSomewhere over the rainbow\nBluebirds fly\nAnd the dreams that you dreamed of\nDreams really do come true\n\nSomeday I'll wish upon a star\nWake up where the clouds are far behind me\nWhere troubles melt like lemon drops\nHigh above the chimney tops\nThat's where you'll find me",
+      "voiceParts": ["SSAA"],
+      "pdfUrl": null,
+      "videoUrl": null,
+      "audioUrl": null
+    }
+  ]
+}

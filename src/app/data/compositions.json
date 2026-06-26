@@ -1,0 +1,14 @@
+{
+  "songs": [
+    {
+      "id": "aBook",
+      "title": "A Book",
+      "description": "",
+      "lyrics": "",
+      "voiceParts": ["SATB", "SSAA"],
+      "pdfUrl": null,
+      "videoUrl": null,
+      "audioUrl": null
+    }
+  ]
+}

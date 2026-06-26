@@ -1,0 +1,20 @@
+{
+  "upcomingEvents": [
+    {
+      "id": "1",
+      "title": "Spring Choral Festival",
+      "description": "A celebration of choral music featuring Hannah's original compositions performed by the Denver Feminist Chorus.",
+      "startDate": "2027-04-12",
+      "endDate": "2027-04-12",
+      "location": "Denver, Colorado",
+      "eventDetailsUrl": null
+    }
+  ],
+  "featuredVideo": {
+    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "title": "Denver Feminist Chorus — 'A Book' by Hannah Kimball",
+    "description": "Watch the Denver Feminist Chorus perform Hannah's original composition 'A Book' at their recent concert Pride & Unpredjudice."
+  },
+  "newestComposition": "aBook",
+  "newestArrangement": "ave-verum-corpus"
+}
