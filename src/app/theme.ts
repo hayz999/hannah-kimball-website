@@ -3,15 +3,15 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
+      main: '#84bef5',
+      light: '#b3d7f9',
+      dark: '#1d6db3',
+      contrastText: '#1A1A2E',
+    },
+    secondary: {
       main: '#5B2D8E',
       light: '#8B5CF6',
       dark: '#3D1A6E',
-      contrastText: '#FFFFFF',
-    },
-    secondary: {
-      main: '#D97706',
-      light: '#F59E0B',
-      dark: '#B45309',
       contrastText: '#FFFFFF',
     },
     background: {
@@ -22,7 +22,7 @@ const theme = createTheme({
       primary: '#1A1A2E',
       secondary: '#4A4561',
     },
-    divider: '#E2D9F3',
+    divider: '#C5DEF9',
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -45,7 +45,7 @@ const theme = createTheme({
           textTransform: 'none',
           borderRadius: 8,
           '&.MuiButton-containedPrimary:hover': {
-            backgroundColor: '#3D1A6E',
+            backgroundColor: '#1d6db3',
           },
         },
       },
@@ -57,7 +57,7 @@ const theme = createTheme({
           transition: 'transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s cubic-bezier(0.22,1,0.36,1)',
           '&:hover': {
             transform: 'translateY(-4px)',
-            boxShadow: '0 16px 48px rgba(91,45,142,0.14)',
+            boxShadow: '0 16px 48px rgba(42,123,196,0.18)',
           },
         },
       },
@@ -72,7 +72,7 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#3D1A6E',
+          backgroundColor: '#1d6db3',
         },
       },
     },

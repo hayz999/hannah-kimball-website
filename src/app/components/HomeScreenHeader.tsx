@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -10,8 +11,39 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import homeScreenHero from '@/app/images/home-screen-hero.jpg';
 
 export default function HomeScreenHeader() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    // Smaller factor on mobile keeps the wrapper height closer to section height,
+    // which preserves more of the source image without cropping Hannah's head/body.
+    const getFactor = () => (window.innerWidth < 900 ? 0.10 : 0.30);
+    const update = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        setParallaxOffset(-rect.top * getFactor());
+      }
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { update(); ticking = false; });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
   return (
     <Box
+      ref={sectionRef}
       component="section"
       aria-label="Hero section"
       sx={{
@@ -22,15 +54,28 @@ export default function HomeScreenHeader() {
         overflow: 'hidden',
       }}
     >
-      {/* Background image */}
-      <Image
-        src={homeScreenHero}
-        alt=""
-        fill
-        priority
-        style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
-        sizes="100vw"
-      />
+      <Box
+        sx={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          // xs: 10% buffer above/below for 0.10 parallax factor;
+          top: { xs: '-10%' },
+          height: { xs: '120%', md: '160%' },
+          transform: `translateY(${parallaxOffset}px)`,
+          willChange: 'transform',
+        }}
+      >
+        <Image
+          src={homeScreenHero}
+          alt=""
+          fill
+          priority
+          // 63% horizontal centers on Hannah (she's ~62% from left in the source image)
+          style={{ objectFit: 'cover', objectPosition: '63% center' }}
+          sizes="100vw"
+        />
+      </Box>
 
       {/* Gradient overlay */}
       <Box
@@ -39,7 +84,7 @@ export default function HomeScreenHeader() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(160deg, rgba(61,26,110,0.72) 0%, rgba(91,45,142,0.55) 50%, rgba(26,10,50,0.82) 100%)',
+            'linear-gradient(160deg, rgba(0,50,100,0.75) 0%, rgba(42,123,196,0.55) 50%, rgba(0,20,50,0.85) 100%)',
         }}
       />
 
