@@ -59,7 +59,7 @@ export default function HomeScreenHeader() {
           position: 'absolute',
           left: 0,
           right: 0,
-          // xs: 10% buffer above/below for 0.10 parallax factor; md: 30% for 0.30 factor
+          // xs: 10% buffer above/below for 0.10 parallax factor;
           top: { xs: '-10%' },
           height: { xs: '120%', md: '160%' },
           transform: `translateY(${parallaxOffset}px)`,

@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -8,51 +7,56 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import ContactModal from '@/app/components/ContactModal';
 import NavButton from '@/app/components/NavButton';
-import { getCompositions, getComposition } from '@/lib/data';
 
-export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const songs = await getCompositions();
-  return songs.map((s) => ({ id: s.id }));
+interface SongDetailLayoutProps {
+  song: {
+    title: string;
+    voiceParts: string[];
+    description: string | null;
+    lyrics: string | null;
+    videoUrl: string | null;
+    audioUrl: string | null;
+    pdfUrl: string | null;
+    originalComposer?: string | null;
+  };
+  backHref: string;
+  backLabel: string;
+  aboutTitle: string;
+  sidebarTitle: string;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const song = await getComposition(id);
-  return { title: song ? `${song.title} | Compositions | Hannah Kimball` : 'Composition Not Found' };
-}
-
-export default async function CompositionDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const song = await getComposition(id);
-
-  if (!song) notFound();
-
+export default function SongDetailLayout({
+  song,
+  backHref,
+  backLabel,
+  aboutTitle,
+  sidebarTitle,
+}: SongDetailLayoutProps) {
   return (
     <Box>
       <Box sx={{ background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
         <Container maxWidth="lg">
           <NavButton
-            href="/compositions"
+            href={backHref}
             startIcon={<ArrowBackIcon />}
             sx={{ color: '#FFFFFF', mb: 2, '&:hover': { color: 'white' } }}
-            aria-label="Back to compositions list"
+            aria-label={`Back to ${backLabel.toLowerCase()} list`}
           >
-            All Compositions
+            {backLabel}
           </NavButton>
           <Typography
             variant="h2"
             component="h1"
-            sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2, fontSize: { xs: '2rem', md: '3rem' } }}
+            sx={{ color: '#FFFFFF', fontWeight: 700, mb: song.originalComposer ? 1 : 2, fontSize: { xs: '2rem', md: '3rem' } }}
             className="animate-fade-in-up"
           >
             {song.title}
           </Typography>
+          {song.originalComposer && (
+            <Typography variant="h6" sx={{ color: '#FFFFFF', mb: 2, fontStyle: 'italic' }}>
+              Original by {song.originalComposer} · Arranged by Hannah Kimball
+            </Typography>
+          )}
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label="Voice parts">
             {song.voiceParts.map((part) => (
               <Chip
@@ -71,7 +75,7 @@ export default async function CompositionDetailPage({
           <Box>
             <Box className="animate-fade-in-up" sx={{ mb: 5 }}>
               <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
-                About This Piece
+                {aboutTitle}
               </Typography>
               <Typography variant="body1" sx={{ lineHeight: 1.85, fontSize: '1.05rem' }}>
                 {song.description}
@@ -205,7 +209,7 @@ export default async function CompositionDetailPage({
               </Box>
 
               <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.dark', mb: 1.5 }}>
-                Interested in performing this work?
+                {sidebarTitle}
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 Contact Hannah to discuss licensing, performance materials, and pricing for your ensemble.
