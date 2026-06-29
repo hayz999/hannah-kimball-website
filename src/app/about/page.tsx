@@ -4,21 +4,25 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Image from 'next/image';
 import PageHero from '@/app/components/PageHero';
-import aboutData from '@/app/data/about.json';
 import headshot from '@/app/images/headshot.jpg';
 import choralConducting from '@/app/images/choral-conducting.jpg';
+import { getSiteSettings } from '@/lib/data';
+
+export const revalidate = 60;
 
 export const metadata = {
   title: 'About | Hannah Kimball',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSiteSettings();
+
   return (
-    <Box>
+    <Box className="section-pattern">
       <PageHero
         image={choralConducting}
         alt="Hannah Kimball conducting a choir"
-        title={aboutData.heading}
+        title={settings.aboutHeading}
         subtitle="Composer · Choral Director · Educator"
       />
 
@@ -31,14 +35,13 @@ export default function AboutPage() {
             alignItems: 'flex-start',
           }}
         >
-          {/* Headshot */}
           <Box className="animate-fade-in-up">
             <Box
               sx={{
                 position: 'relative',
                 borderRadius: 3,
                 overflow: 'hidden',
-                boxShadow: '0 12px 48px rgba(91,45,142,0.2)',
+                boxShadow: '0 12px 48px rgba(42,123,196,0.25)',
                 aspectRatio: '3/4',
               }}
             >
@@ -56,7 +59,7 @@ export default function AboutPage() {
                 mt: 2,
                 p: 2.5,
                 borderRadius: 2,
-                backgroundColor: '#F3EEF9',
+                backgroundColor: '#EDF4FD',
                 borderLeft: '4px solid',
                 borderColor: 'secondary.main',
               }}
@@ -65,30 +68,29 @@ export default function AboutPage() {
                 Based in
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {aboutData.location}
+                {settings.aboutLocation}
               </Typography>
               <Divider sx={{ my: 1.5 }} />
               <Typography variant="body2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 0.5 }}>
                 Specialties
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {aboutData.specialties}
+                {settings.aboutSpecialties}
               </Typography>
             </Box>
           </Box>
 
-          {/* Bio text */}
           <Box className="animate-fade-in-up stagger-2">
             <Typography
               variant="h3"
               component="h2"
               sx={{ fontWeight: 700, color: 'primary.dark', mb: 1.5 }}
             >
-              {aboutData.heading}
+              {settings.aboutHeading}
             </Typography>
             <Divider sx={{ borderColor: 'secondary.main', borderBottomWidth: 3, width: 56, mb: 4 }} />
 
-            {aboutData.body.split('\n\n').map((paragraph, i) => (
+            {settings.aboutBody.split('\n\n').map((paragraph, i) => (
               <Typography
                 key={i}
                 variant="body1"

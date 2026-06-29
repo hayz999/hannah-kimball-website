@@ -8,21 +8,24 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import Link from 'next/link';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import compositionsData from '@/app/data/compositions.json';
+import { getCompositions } from '@/lib/data';
+
+export const revalidate = 60;
 
 export const metadata = {
   title: 'Compositions | Hannah Kimball',
 };
 
-export default function CompositionsPage() {
+export default async function CompositionsPage() {
+  const songs = await getCompositions();
+
   return (
-    <Box>
-      {/* Page header banner */}
+    <Box className="section-pattern">
       <Box
         component="section"
         aria-label="Compositions header"
         sx={{
-          background: 'linear-gradient(135deg, #3D1A6E 0%, #5B2D8E 100%)',
+          background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)',
           py: { xs: 7, md: 10 },
           px: 3,
           textAlign: 'center',
@@ -39,7 +42,7 @@ export default function CompositionsPage() {
         <Typography
           variant="h6"
           component="p"
-          sx={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400, maxWidth: 560, mx: 'auto' }}
+          sx={{ color: '#FFFFFF', fontWeight: 400, maxWidth: 560, mx: 'auto' }}
           className="animate-fade-in-up stagger-2"
         >
           Original choral works available for licensing and purchase
@@ -48,7 +51,7 @@ export default function CompositionsPage() {
 
       <Container maxWidth="lg" sx={{ py: { xs: 5, md: 8 } }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {compositionsData.songs.map((song, i) => (
+          {songs.map((song, i) => (
             <Card
               key={song.id}
               elevation={1}
@@ -67,7 +70,6 @@ export default function CompositionsPage() {
                     p: { xs: 2, sm: 3 },
                   }}
                 >
-                  {/* PDF thumbnail placeholder */}
                   <Box
                     aria-hidden="true"
                     sx={{
@@ -75,11 +77,11 @@ export default function CompositionsPage() {
                       height: { xs: 90, sm: 120 },
                       flexShrink: 0,
                       borderRadius: 2,
-                      backgroundColor: '#F3EEF9',
+                      backgroundColor: '#EDF4FD',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      border: '1px solid #E2D9F3',
+                      border: '1px solid #C5DEF9',
                     }}
                   >
                     {song.pdfUrl ? (
@@ -92,11 +94,10 @@ export default function CompositionsPage() {
                         aria-hidden="true"
                       />
                     ) : (
-                      <MusicNoteIcon sx={{ fontSize: { xs: 36, sm: 48 }, color: '#5B2D8E', opacity: 0.5 }} />
+                      <MusicNoteIcon sx={{ fontSize: { xs: 36, sm: 48 }, color: '#2a7bc4', opacity: 0.5 }} />
                     )}
                   </Box>
 
-                  {/* Text content */}
                   <Box sx={{ flexGrow: 1, minWidth: 0 }}>
                     <Typography
                       variant="h5"
@@ -125,11 +126,7 @@ export default function CompositionsPage() {
                           label={part}
                           size="small"
                           role="listitem"
-                          sx={{
-                            backgroundColor: '#E2D9F3',
-                            color: 'primary.dark',
-                            fontWeight: 600,
-                          }}
+                          sx={{ backgroundColor: '#C5DEF9', color: 'primary.dark', fontWeight: 600 }}
                         />
                       ))}
                     </Box>
@@ -144,7 +141,7 @@ export default function CompositionsPage() {
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="body1" color="text.secondary">
             Interested in performing one of these works?{' '}
-            <Link href="/contact" style={{ color: '#5B2D8E', fontWeight: 600 }}>
+            <Link href="/contact" style={{ color: '#1d6db3', fontWeight: 600 }}>
               Get in touch
             </Link>{' '}
             to discuss licensing and performance materials.

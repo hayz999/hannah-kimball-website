@@ -22,7 +22,6 @@ type NavPage = {
 };
 
 const pages: NavPage[] = [
-  { label: 'Home',             href: '/',                ariaLabel: 'Go to home page' },
   { label: 'About',            href: '/about',           ariaLabel: 'Go to about page' },
   { label: 'Choral Directing', href: '/choral-directing',ariaLabel: 'Go to choral directing page' },
   { label: 'Compositions',     href: '/compositions',    ariaLabel: 'Go to compositions page' },
@@ -49,11 +48,11 @@ export default function AppNavBar() {
     <AppBar position="sticky" role="navigation" aria-label="Main navigation">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ minHeight: { xs: 56, md: 64 } }}>
-          {/* Brand name — visible on all viewports */}
+          {/* Home tab — visible on all viewports */}
           <Box
             component={Link}
             href="/"
-            aria-label="Hannah Kimball — home"
+            aria-label="Home"
             sx={{
               display: 'flex',
               alignItems: 'center',
@@ -69,7 +68,7 @@ export default function AppNavBar() {
               component="span"
               sx={{ fontWeight: 700, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}
             >
-              Hannah Kimball
+              Home
             </Typography>
           </Box>
 
@@ -98,7 +97,7 @@ export default function AppNavBar() {
               slotProps={{
                 paper: {
                   sx: {
-                    backgroundColor: '#3D1A6E',
+                    backgroundColor: '#1d6db3',
                     color: 'white',
                     minWidth: 200,
                   },
@@ -116,7 +115,7 @@ export default function AppNavBar() {
                   sx={{
                     color: 'white',
                     fontWeight: isActive(page.href) ? 700 : 400,
-                    borderLeft: isActive(page.href) ? '3px solid #F59E0B' : '3px solid transparent',
+                    borderLeft: isActive(page.href) ? '3px solid #5B2D8E' : '3px solid transparent',
                     '&:hover': { backgroundColor: 'rgba(255,255,255,0.12)' },
                   }}
                 >
@@ -150,7 +149,7 @@ export default function AppNavBar() {
                     transform: 'translateX(-50%)',
                     width: isActive(page.href) ? '60%' : '0%',
                     height: '2px',
-                    backgroundColor: '#F59E0B',
+                    backgroundColor: '#5B2D8E',
                     transition: 'width 0.25s ease',
                     borderRadius: '1px',
                   },

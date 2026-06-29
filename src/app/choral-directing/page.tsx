@@ -7,7 +7,9 @@ import Chip from '@mui/material/Chip';
 import Divider from '@mui/material/Divider';
 import PageHero from '@/app/components/PageHero';
 import choralConductingImg from '@/app/images/choral-conducting.jpg';
-import choralData from '@/app/data/choral-directing.json';
+import { getGigs } from '@/lib/data';
+
+export const revalidate = 60;
 
 export const metadata = {
   title: 'Choral Directing | Hannah Kimball',
@@ -23,14 +25,16 @@ function formatDateRange(start: string, end: string): string {
   return `${formatMonthYear(start)} – ${formatMonthYear(end)}`;
 }
 
-export default function ChoralDirectingPage() {
+export default async function ChoralDirectingPage() {
+  const gigs = await getGigs();
+
   return (
-    <Box>
+    <Box className="section-pattern">
       <PageHero
         image={choralConductingImg}
         alt="Hannah Kimball conducting a choir"
         title="Choral Directing"
-        subtitle="A decade of building choral community across the Mountain West"
+        subtitle="Building community and connection through music"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 7, md: 10 } }}>
@@ -45,7 +49,7 @@ export default function ChoralDirectingPage() {
         <Divider sx={{ borderColor: 'secondary.main', borderBottomWidth: 3, width: 56, mb: 5 }} />
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {choralData.gigs.map((gig, i) => (
+          {gigs.map((gig, i) => (
             <Card
               key={gig.id}
               elevation={1}
@@ -70,7 +74,7 @@ export default function ChoralDirectingPage() {
                     label={formatDateRange(gig.startDate, gig.endDate)}
                     size="small"
                     sx={{
-                      backgroundColor: gig.endDate === 'present' ? 'secondary.light' : '#E2D9F3',
+                      backgroundColor: gig.endDate === 'present' ? 'secondary.light' : '#C5DEF9',
                       color: gig.endDate === 'present' ? 'white' : 'primary.dark',
                       fontWeight: 600,
                       flexShrink: 0,
@@ -85,7 +89,7 @@ export default function ChoralDirectingPage() {
                 {gig.videoUrl && (
                   <Box
                     className="responsive-iframe-wrapper"
-                    sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 20px rgba(91,45,142,0.12)' }}
+                    sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 20px rgba(42,123,196,0.18)' }}
                     role="region"
                     aria-label={`Video: ${gig.choirName}`}
                   >

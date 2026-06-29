@@ -1,3 +1,6 @@
+'use client';
+
+import { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Image, { StaticImageData } from 'next/image';
@@ -10,20 +13,57 @@ interface PageHeroProps {
 }
 
 export default function PageHero({ image, alt, title, subtitle }: PageHeroProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    const update = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        setParallaxOffset(-rect.top * 0.3);
+      }
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => { update(); ticking = false; });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <Box
+      ref={sectionRef}
       component="section"
       sx={{ position: 'relative', width: '100%', height: { xs: 280, sm: 360, md: 440 }, overflow: 'hidden' }}
       aria-label={`${title} hero section`}
     >
-      <Image
-        src={image}
-        alt={alt}
-        fill
-        priority
-        style={{ objectFit: 'cover', objectPosition: 'center top' }}
-        sizes="100vw"
-      />
+      {/* Background image — oversized to allow parallax shift without blank edges */}
+      <Box
+        sx={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: '2%',
+          height: '160%',
+          transform: `translateY(${parallaxOffset}px)`,
+          willChange: 'transform',
+        }}
+      >
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center center' }}
+          sizes="100vw"
+        />
+      </Box>
       {/* Dark purple gradient overlay */}
       <Box
         aria-hidden="true"

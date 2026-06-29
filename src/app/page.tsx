@@ -16,10 +16,14 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import EmailIcon from '@mui/icons-material/Email';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import HomeScreenHeader from '@/app/components/HomeScreenHeader';
-import homeData from '@/app/data/home.json';
-import compositionsData from '@/app/data/compositions.json';
-import arrangementsData from '@/app/data/arrangements.json';
-import contactData from '@/app/data/contact.json';
+import {
+  getUpcomingEvents,
+  getComposition,
+  getArrangement,
+  getSiteSettings,
+} from '@/lib/data';
+
+export const revalidate = 60;
 
 function formatEventDate(start: string, end: string): string {
   const s = new Date(start + 'T00:00:00');
@@ -33,14 +37,17 @@ function formatEventDate(start: string, end: string): string {
   return `${s.toLocaleDateString('en-US', opts)} – ${e.toLocaleDateString('en-US', opts)}`;
 }
 
-const newestComposition = compositionsData.songs.find(
-  (s) => s.id === homeData.newestComposition,
-);
-const newestArrangement = arrangementsData.songs.find(
-  (s) => s.id === homeData.newestArrangement,
-);
+export default async function Home() {
+  const [settings, upcomingEvents] = await Promise.all([
+    getSiteSettings(),
+    getUpcomingEvents(),
+  ]);
 
-export default function Home() {
+  const [newestComposition, newestArrangement] = await Promise.all([
+    settings.newestCompositionId ? getComposition(settings.newestCompositionId) : null,
+    settings.newestArrangementId ? getArrangement(settings.newestArrangementId) : null,
+  ]);
+
   return (
     <Box>
       <HomeScreenHeader />
@@ -49,6 +56,7 @@ export default function Home() {
       <Box
         component="section"
         aria-labelledby="events-heading"
+        className="section-pattern"
         sx={{ py: { xs: 7, md: 10 }, backgroundColor: '#FAFAFA' }}
       >
         <Container maxWidth="lg">
@@ -70,7 +78,7 @@ export default function Home() {
               gap: 3,
             }}
           >
-            {homeData.upcomingEvents.map((event, i) => {
+            {upcomingEvents.map((event, i) => {
               const cardContent = (
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
@@ -156,7 +164,6 @@ export default function Home() {
               gap: 3,
             }}
           >
-            {/* Newest Composition */}
             {newestComposition && (
               <Card
                 elevation={0}
@@ -171,7 +178,7 @@ export default function Home() {
                   <CardContent sx={{ p: 3 }}>
                     <Typography
                       variant="overline"
-                      sx={{ color: '#F59E0B', fontWeight: 700, letterSpacing: '0.15em' }}
+                      sx={{ color: '#b3d7f9', fontWeight: 700, letterSpacing: '0.15em' }}
                     >
                       Latest Composition
                     </Typography>
@@ -204,7 +211,7 @@ export default function Home() {
                           key={part}
                           label={part}
                           size="small"
-                          sx={{ backgroundColor: 'rgba(245,158,11,0.2)', color: '#F59E0B', fontWeight: 600, border: '1px solid rgba(245,158,11,0.4)' }}
+                          sx={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', fontWeight: 600, border: '1px solid rgba(255,255,255,0.45)' }}
                         />
                       ))}
                     </Box>
@@ -213,7 +220,6 @@ export default function Home() {
               </Card>
             )}
 
-            {/* Newest Arrangement */}
             {newestArrangement && (
               <Card
                 elevation={0}
@@ -228,7 +234,7 @@ export default function Home() {
                   <CardContent sx={{ p: 3 }}>
                     <Typography
                       variant="overline"
-                      sx={{ color: '#F59E0B', fontWeight: 700, letterSpacing: '0.15em' }}
+                      sx={{ color: '#b3d7f9', fontWeight: 700, letterSpacing: '0.15em' }}
                     >
                       Latest Arrangement
                     </Typography>
@@ -261,7 +267,7 @@ export default function Home() {
                           key={part}
                           label={part}
                           size="small"
-                          sx={{ backgroundColor: 'rgba(245,158,11,0.2)', color: '#F59E0B', fontWeight: 600, border: '1px solid rgba(245,158,11,0.4)' }}
+                          sx={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', fontWeight: 600, border: '1px solid rgba(255,255,255,0.45)' }}
                         />
                       ))}
                     </Box>
@@ -298,6 +304,7 @@ export default function Home() {
       <Box
         component="section"
         aria-labelledby="video-heading"
+        className="section-pattern"
         sx={{ py: { xs: 7, md: 10 }, backgroundColor: '#FFFFFF' }}
       >
         <Container maxWidth="lg">
@@ -312,18 +319,18 @@ export default function Home() {
           </Typography>
           <Divider sx={{ borderColor: 'secondary.main', borderBottomWidth: 3, width: 56, mb: 3 }} />
           <Typography variant="h6" component="p" sx={{ color: 'text.primary', fontWeight: 700, mb: 0.5 }} className="animate-fade-in-up stagger-1">
-            {homeData.featuredVideo.title}
+            {settings.featuredVideoTitle}
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }} className="animate-fade-in-up stagger-2">
-            {homeData.featuredVideo.description}
+            {settings.featuredVideoDescription}
           </Typography>
           <Box
             className="responsive-iframe-wrapper animate-fade-in-up stagger-3"
-            sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 8px 40px rgba(91,45,142,0.15)' }}
+            sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 8px 40px rgba(42,123,196,0.2)' }}
           >
             <iframe
-              src={homeData.featuredVideo.url}
-              title={homeData.featuredVideo.title}
+              src={settings.featuredVideoUrl}
+              title={settings.featuredVideoTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -335,7 +342,8 @@ export default function Home() {
       <Box
         component="section"
         aria-labelledby="social-heading"
-        sx={{ py: { xs: 7, md: 10 }, backgroundColor: '#F3EEF9' }}
+        className="section-pattern"
+        sx={{ py: { xs: 7, md: 10 }, backgroundColor: '#EDF4FD' }}
       >
         <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
           <Typography
@@ -349,7 +357,7 @@ export default function Home() {
           </Typography>
           <Divider sx={{ borderColor: 'secondary.main', borderBottomWidth: 3, width: 56, mb: 4, mx: 'auto' }} />
           <Typography variant="body1" color="text.secondary" sx={{ mb: 5 }} className="animate-fade-in-up stagger-1">
-            Follow Hannah's musical journey across social media.
+            Follow Hannah&apos;s musical journey across social media.
           </Typography>
 
           <Box
@@ -357,9 +365,9 @@ export default function Home() {
             className="animate-fade-in-up stagger-2"
           >
             {[
-              { href: contactData.linkedin,  label: 'LinkedIn',  icon: <LinkedInIcon fontSize="large" /> },
-              { href: contactData.instagram, label: 'Instagram', icon: <InstagramIcon fontSize="large" /> },
-              { href: `mailto:${contactData.email}`, label: 'Email', icon: <EmailIcon fontSize="large" /> },
+              { href: settings.contactLinkedin, label: 'LinkedIn', icon: <LinkedInIcon fontSize="large" /> },
+              { href: settings.contactInstagram, label: 'Instagram', icon: <InstagramIcon fontSize="large" /> },
+              { href: `mailto:${settings.contactEmail}`, label: 'Email', icon: <EmailIcon fontSize="large" /> },
             ].map(({ href, label, icon }) => (
               <Button
                 key={label}

@@ -8,17 +8,18 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import ContactModal from '@/app/components/ContactModal';
 import NavButton from '@/app/components/NavButton';
-import compositionsData from '@/app/data/compositions.json';
+import { getCompositions, getComposition } from '@/lib/data';
 
-type Song = (typeof compositionsData.songs)[number];
+export const revalidate = 60;
 
 export async function generateStaticParams() {
-  return compositionsData.songs.map((s) => ({ id: s.id }));
+  const songs = await getCompositions();
+  return songs.map((s) => ({ id: s.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const song = compositionsData.songs.find((s) => s.id === id);
+  const song = await getComposition(id);
   return { title: song ? `${song.title} | Compositions | Hannah Kimball` : 'Composition Not Found' };
 }
 
@@ -28,19 +29,18 @@ export default async function CompositionDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const song: Song | undefined = compositionsData.songs.find((s) => s.id === id);
+  const song = await getComposition(id);
 
   if (!song) notFound();
 
   return (
     <Box>
-      {/* Header bar */}
-      <Box sx={{ background: 'linear-gradient(135deg, #3D1A6E 0%, #5B2D8E 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
+      <Box sx={{ background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
         <Container maxWidth="lg">
           <NavButton
             href="/compositions"
             startIcon={<ArrowBackIcon />}
-            sx={{ color: 'rgba(255,255,255,0.8)', mb: 2, '&:hover': { color: 'white' } }}
+            sx={{ color: '#FFFFFF', mb: 2, '&:hover': { color: 'white' } }}
             aria-label="Back to compositions list"
           >
             All Compositions
@@ -59,7 +59,7 @@ export default async function CompositionDetailPage({
                 key={part}
                 label={part}
                 role="listitem"
-                sx={{ backgroundColor: 'rgba(245,158,11,0.25)', color: '#F59E0B', fontWeight: 700, border: '1px solid rgba(245,158,11,0.45)' }}
+                sx={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', fontWeight: 700, border: '1px solid rgba(255,255,255,0.45)' }}
               />
             ))}
           </Box>
@@ -68,9 +68,7 @@ export default async function CompositionDetailPage({
 
       <Container maxWidth="lg" sx={{ py: { xs: 5, md: 8 } }}>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 380px' }, gap: { xs: 5, md: 6 }, alignItems: 'flex-start' }}>
-          {/* Main content */}
           <Box>
-            {/* Description */}
             <Box className="animate-fade-in-up" sx={{ mb: 5 }}>
               <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
                 About This Piece
@@ -80,14 +78,13 @@ export default async function CompositionDetailPage({
               </Typography>
             </Box>
 
-            {/* Lyrics */}
             <Box className="animate-fade-in-up stagger-1" sx={{ mb: 5 }}>
               <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
                 Lyrics
               </Typography>
               <Box
                 sx={{
-                  backgroundColor: '#F3EEF9',
+                  backgroundColor: '#EDF4FD',
                   borderLeft: '4px solid',
                   borderColor: 'secondary.main',
                   borderRadius: '0 8px 8px 0',
@@ -111,7 +108,6 @@ export default async function CompositionDetailPage({
               </Box>
             </Box>
 
-            {/* Embedded Video */}
             {song.videoUrl && (
               <Box className="animate-fade-in-up stagger-2" sx={{ mb: 5 }}>
                 <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
@@ -119,7 +115,7 @@ export default async function CompositionDetailPage({
                 </Typography>
                 <Box
                   className="responsive-iframe-wrapper"
-                  sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 24px rgba(91,45,142,0.15)' }}
+                  sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 24px rgba(42,123,196,0.2)' }}
                   role="region"
                   aria-label={`Video: ${song.title}`}
                 >
@@ -133,7 +129,6 @@ export default async function CompositionDetailPage({
               </Box>
             )}
 
-            {/* Audio */}
             {song.audioUrl && (
               <Box className="animate-fade-in-up stagger-3" sx={{ mb: 5 }}>
                 <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
@@ -149,7 +144,6 @@ export default async function CompositionDetailPage({
               </Box>
             )}
 
-            {/* PDF Viewer */}
             {song.pdfUrl && (
               <Box className="animate-fade-in-up stagger-4" sx={{ mb: 5 }}>
                 <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
@@ -159,7 +153,7 @@ export default async function CompositionDetailPage({
                   sx={{
                     borderRadius: 2,
                     overflow: 'hidden',
-                    boxShadow: '0 4px 24px rgba(91,45,142,0.1)',
+                    boxShadow: '0 4px 24px rgba(42,123,196,0.15)',
                     height: { xs: 400, md: 600 },
                   }}
                   role="region"
@@ -176,7 +170,6 @@ export default async function CompositionDetailPage({
             )}
           </Box>
 
-          {/* Sidebar */}
           <Box className="animate-fade-in-up stagger-2">
             <Box
               sx={{
@@ -189,12 +182,11 @@ export default async function CompositionDetailPage({
                 top: { md: 88 },
               }}
             >
-              {/* Sheet music placeholder */}
               <Box
                 sx={{
                   width: '100%',
                   aspectRatio: '8.5/11',
-                  backgroundColor: '#F3EEF9',
+                  backgroundColor: '#EDF4FD',
                   borderRadius: 2,
                   display: 'flex',
                   flexDirection: 'column',
@@ -202,11 +194,11 @@ export default async function CompositionDetailPage({
                   justifyContent: 'center',
                   gap: 1,
                   mb: 3,
-                  border: '1px solid #E2D9F3',
+                  border: '1px solid #C5DEF9',
                 }}
                 aria-hidden="true"
               >
-                <MusicNoteIcon sx={{ fontSize: 64, color: '#5B2D8E', opacity: 0.35 }} />
+                <MusicNoteIcon sx={{ fontSize: 64, color: '#2a7bc4', opacity: 0.35 }} />
                 <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', px: 2 }}>
                   {song.pdfUrl ? 'Score available' : 'Score available upon purchase'}
                 </Typography>
