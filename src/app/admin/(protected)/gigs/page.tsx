@@ -110,7 +110,7 @@ export default function GigsAdminPage() {
   );
 
   return (
-    <Box className="section-pattern" sx={{ minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
       <Box sx={{ background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
         <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
           <Typography variant="h3" component="h1" sx={{ color: 'white', fontWeight: 700 }}>Conducting Gigs</Typography>

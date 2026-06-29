@@ -33,6 +33,8 @@ export default function AppNavBar() {
   const pathname = usePathname();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
+  if (pathname.startsWith('/admin')) return null;
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };

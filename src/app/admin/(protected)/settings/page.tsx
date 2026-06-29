@@ -5,14 +5,19 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import SaveIcon from '@mui/icons-material/Save';
 
 type Settings = Record<string, string>;
+type TitleRow = { id: string; title: string };
 
-const FIELDS: { key: string; label: string; multiline?: boolean }[] = [
+const TEXT_FIELDS: { key: string; label: string; multiline?: boolean }[] = [
   { key: 'about_heading', label: 'About Page Heading' },
   { key: 'about_body', label: 'About Page Body', multiline: true },
   { key: 'about_location', label: 'Location' },
@@ -20,8 +25,6 @@ const FIELDS: { key: string; label: string; multiline?: boolean }[] = [
   { key: 'featured_video_url', label: 'Featured Video URL (embed)' },
   { key: 'featured_video_title', label: 'Featured Video Title' },
   { key: 'featured_video_description', label: 'Featured Video Description' },
-  { key: 'newest_composition_id', label: 'Newest Composition ID' },
-  { key: 'newest_arrangement_id', label: 'Newest Arrangement ID' },
   { key: 'contact_instagram', label: 'Instagram URL' },
   { key: 'contact_instagram_handle', label: 'Instagram Handle' },
   { key: 'contact_linkedin', label: 'LinkedIn URL' },
@@ -30,17 +33,26 @@ const FIELDS: { key: string; label: string; multiline?: boolean }[] = [
 
 export default function SettingsAdminPage() {
   const [settings, setSettings] = useState<Settings>({});
+  const [compositions, setCompositions] = useState<TitleRow[]>([]);
+  const [arrangements, setArrangements] = useState<TitleRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/admin/settings')
-      .then(r => r.json())
-      .then(data => { setSettings(data); setLoading(false); });
+    Promise.all([
+      fetch('/api/admin/settings').then(r => r.json()),
+      fetch('/api/admin/compositions').then(r => r.json()),
+      fetch('/api/admin/arrangements').then(r => r.json()),
+    ]).then(([s, c, a]) => {
+      setSettings(s);
+      setCompositions(c.map((row: Record<string, unknown>) => ({ id: row.id as string, title: row.title as string })));
+      setArrangements(a.map((row: Record<string, unknown>) => ({ id: row.id as string, title: row.title as string })));
+      setLoading(false);
+    });
   }, []);
 
-  const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const setField = (key: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setSettings(s => ({ ...s, [key]: e.target.value }));
 
   async function handleSave() {
@@ -57,7 +69,7 @@ export default function SettingsAdminPage() {
   }
 
   return (
-    <Box className="section-pattern" sx={{ minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
       <Box sx={{ background: 'linear-gradient(135deg, #3D1A6E 0%, #5B2D8E 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
         <Container maxWidth="lg">
           <Typography variant="h3" component="h1" sx={{ color: 'white', fontWeight: 700 }}>Site Settings</Typography>
@@ -79,12 +91,12 @@ export default function SettingsAdminPage() {
             <Typography variant="overline" sx={{ color: 'secondary.dark', fontWeight: 700, letterSpacing: '0.1em', mb: 2 }}>
               About Page
             </Typography>
-            {FIELDS.slice(0, 4).map(f => (
+            {TEXT_FIELDS.slice(0, 4).map(f => (
               <TextField
                 key={f.key}
                 label={f.label}
                 value={settings[f.key] ?? ''}
-                onChange={set(f.key)}
+                onChange={setField(f.key)}
                 fullWidth
                 multiline={f.multiline}
                 rows={f.multiline ? 6 : undefined}
@@ -97,12 +109,12 @@ export default function SettingsAdminPage() {
             <Typography variant="overline" sx={{ color: 'secondary.dark', fontWeight: 700, letterSpacing: '0.1em', mb: 2 }}>
               Featured Video
             </Typography>
-            {FIELDS.slice(4, 7).map(f => (
+            {TEXT_FIELDS.slice(4, 7).map(f => (
               <TextField
                 key={f.key}
                 label={f.label}
                 value={settings[f.key] ?? ''}
-                onChange={set(f.key)}
+                onChange={setField(f.key)}
                 fullWidth
                 size="small"
                 sx={{ mb: 2.5 }}
@@ -113,29 +125,47 @@ export default function SettingsAdminPage() {
             <Typography variant="overline" sx={{ color: 'secondary.dark', fontWeight: 700, letterSpacing: '0.1em', mb: 2 }}>
               Newest Works (Homepage)
             </Typography>
-            {FIELDS.slice(7, 9).map(f => (
-              <TextField
-                key={f.key}
-                label={f.label}
-                value={settings[f.key] ?? ''}
-                onChange={set(f.key)}
-                fullWidth
-                size="small"
-                sx={{ mb: 2.5 }}
-                helperText="Paste the ID of the item to feature on the homepage"
-              />
-            ))}
+
+            <FormControl fullWidth size="small" sx={{ mb: 2.5 }}>
+              <InputLabel id="newest-comp-label">Newest Composition</InputLabel>
+              <Select
+                labelId="newest-comp-label"
+                label="Newest Composition"
+                value={settings['newest_composition_id'] ?? ''}
+                onChange={e => setSettings(s => ({ ...s, newest_composition_id: e.target.value }))}
+              >
+                <MenuItem value=""><em>None</em></MenuItem>
+                {compositions.map(c => (
+                  <MenuItem key={c.id} value={c.id}>{c.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth size="small" sx={{ mb: 2.5 }}>
+              <InputLabel id="newest-arr-label">Newest Arrangement</InputLabel>
+              <Select
+                labelId="newest-arr-label"
+                label="Newest Arrangement"
+                value={settings['newest_arrangement_id'] ?? ''}
+                onChange={e => setSettings(s => ({ ...s, newest_arrangement_id: e.target.value }))}
+              >
+                <MenuItem value=""><em>None</em></MenuItem>
+                {arrangements.map(a => (
+                  <MenuItem key={a.id} value={a.id}>{a.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <Divider sx={{ my: 3 }} />
             <Typography variant="overline" sx={{ color: 'secondary.dark', fontWeight: 700, letterSpacing: '0.1em', mb: 2 }}>
               Contact / Social
             </Typography>
-            {FIELDS.slice(9).map(f => (
+            {TEXT_FIELDS.slice(7).map(f => (
               <TextField
                 key={f.key}
                 label={f.label}
                 value={settings[f.key] ?? ''}
-                onChange={set(f.key)}
+                onChange={setField(f.key)}
                 fullWidth
                 size="small"
                 sx={{ mb: 2.5 }}
