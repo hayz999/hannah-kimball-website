@@ -12,15 +12,13 @@ import Typography from '@mui/material/Typography';
 import EmailIcon from '@mui/icons-material/Email';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import contactData from '@/app/data/contact.json';
 
 interface ContactModalProps {
   songTitle: string;
+  contactEmail: string;
 }
 
-const CONTACT_EMAIL = contactData.email;
-
-export default function ContactModal({ songTitle }: ContactModalProps) {
+export default function ContactModal({ songTitle, contactEmail }: ContactModalProps) {
   const [open, setOpen] = useState(false);
   const [subject, setSubject] = useState(`Purchase Inquiry: ${songTitle}`);
   const [message, setMessage] = useState('');
@@ -29,7 +27,7 @@ export default function ContactModal({ songTitle }: ContactModalProps) {
   const handleClose = () => setOpen(false);
 
   const handleSend = () => {
-    const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     window.location.href = mailtoUrl;
     handleClose();
   };

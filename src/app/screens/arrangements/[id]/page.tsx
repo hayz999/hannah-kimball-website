@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import SongDetailLayout from '@/app/components/SongDetailLayout';
-import { getArrangements, getArrangement } from '@/lib/data';
+import { getArrangements, getArrangement, getContactInfo } from '@/lib/data';
 
 export const revalidate = 60;
 
@@ -21,7 +21,7 @@ export default async function ArrangementDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const song = await getArrangement(id);
+  const [song, contact] = await Promise.all([getArrangement(id), getContactInfo()]);
 
   if (!song) notFound();
 
@@ -32,6 +32,7 @@ export default async function ArrangementDetailPage({
       backLabel="All Arrangements"
       aboutTitle="About This Arrangement"
       sidebarTitle="Interested in performing this arrangement?"
+      contactEmail={contact.email}
     />
   );
 }

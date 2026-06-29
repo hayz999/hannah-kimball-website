@@ -23,6 +23,7 @@ interface SongDetailLayoutProps {
   backLabel: string;
   aboutTitle: string;
   sidebarTitle: string;
+  contactEmail: string;
 }
 
 export default function SongDetailLayout({
@@ -31,6 +32,7 @@ export default function SongDetailLayout({
   backLabel,
   aboutTitle,
   sidebarTitle,
+  contactEmail,
 }: SongDetailLayoutProps) {
   return (
     <Box>
@@ -216,7 +218,7 @@ export default function SongDetailLayout({
               </Typography>
               <Divider sx={{ mb: 2 }} />
 
-              <ContactModal songTitle={song.title} />
+              <ContactModal songTitle={song.title} contactEmail={contactEmail} />
 
               <NavButton
                 href="/contact"
