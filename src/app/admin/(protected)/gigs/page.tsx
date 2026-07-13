@@ -141,7 +141,7 @@ export default function GigsAdminPage() {
     <Box sx={{ minHeight: "100vh", backgroundColor: "#F8FAFC" }}>
       <Box
         sx={{
-          background: "linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)",
+          background: "linear-gradient(135deg, #3D1A6E 0%, #5B2D8E 100%)",
           py: { xs: 5, md: 7 },
           px: 3,
         }}

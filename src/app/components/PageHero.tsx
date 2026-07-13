@@ -68,7 +68,7 @@ export default function PageHero({
           left: 0,
           right: 0,
           top: "2%",
-          height: "160%",
+          height: "200%",
           transform: `translateY(${parallaxOffset}px)`,
           willChange: "transform",
         }}
@@ -89,7 +89,7 @@ export default function PageHero({
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(61,26,110,0.55) 0%, rgba(26,10,50,0.75) 100%)",
+            "linear-gradient(160deg, rgba(0,50,100,0.75) 0%, rgba(42,123,196,0.55) 50%, rgba(0,20,50,0.85) 100%)",
         }}
       />
       {/* Text content */}
