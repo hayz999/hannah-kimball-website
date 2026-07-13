@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -14,10 +13,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import MicIcon from "@mui/icons-material/Mic";
+import { useCrudResource } from "../useCrudResource";
 
 type Row = {
   id: string;
@@ -65,62 +66,30 @@ function toBody(f: Form) {
 }
 
 export default function GigsAdminPage() {
-  const [items, setItems] = useState<Row[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [editItem, setEditItem] = useState<Row | null>(null);
-  const [deleteItem, setDeleteItem] = useState<Row | null>(null);
-  const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState<Form>(empty);
-
-  const load = async () => {
-    const r = await fetch("/api/admin/gigs");
-    setItems(await r.json());
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    load();
-  }, []);
-
-  const set =
-    (k: keyof Form) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
-
-  async function saveAdd() {
-    setSaving(true);
-    await fetch("/api/admin/gigs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(toBody(form)),
-    });
-    setSaving(false);
-    setAdding(false);
-    load();
-  }
-
-  async function saveEdit() {
-    if (!editItem) return;
-    setSaving(true);
-    await fetch(`/api/admin/gigs/${editItem.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(toBody(form)),
-    });
-    setSaving(false);
-    setEditItem(null);
-    load();
-  }
-
-  async function confirmDelete() {
-    if (!deleteItem) return;
-    setSaving(true);
-    await fetch(`/api/admin/gigs/${deleteItem.id}`, { method: "DELETE" });
-    setSaving(false);
-    setDeleteItem(null);
-    load();
-  }
+  const {
+    items,
+    loading,
+    error,
+    saving,
+    editItem,
+    setEditItem,
+    deleteItem,
+    setDeleteItem,
+    adding,
+    setAdding,
+    form,
+    set,
+    startAdd,
+    startEdit,
+    saveAdd,
+    saveEdit,
+    confirmDelete,
+  } = useCrudResource<Row, Form>({
+    endpoint: "/api/admin/gigs",
+    emptyForm: empty,
+    toForm,
+    toBody,
+  });
 
   const formFields = (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 1 }}>
@@ -197,10 +166,7 @@ export default function GigsAdminPage() {
           <Button
             variant="contained"
             startIcon={<AddIcon />}
-            onClick={() => {
-              setForm(empty);
-              setAdding(true);
-            }}
+            onClick={startAdd}
             sx={{
               backgroundColor: "white",
               color: "primary.dark",
@@ -214,6 +180,11 @@ export default function GigsAdminPage() {
       </Box>
 
       <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>
+        {error && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        )}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
             <CircularProgress />
@@ -271,10 +242,7 @@ export default function GigsAdminPage() {
                   </Box>
                   <Box sx={{ display: "flex", gap: 0.5, flexShrink: 0 }}>
                     <IconButton
-                      onClick={() => {
-                        setForm(toForm(item));
-                        setEditItem(item);
-                      }}
+                      onClick={() => startEdit(item)}
                       aria-label={`Edit ${item.choir_name}`}
                       size="small"
                       sx={{ color: "primary.main" }}

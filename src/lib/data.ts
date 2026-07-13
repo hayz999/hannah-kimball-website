@@ -1,3 +1,4 @@
+import type { Row } from "@libsql/client";
 import db from "./db";
 
 export type Composition = {
@@ -11,16 +12,8 @@ export type Composition = {
   audioUrl: string | null;
 };
 
-export type Arrangement = {
-  id: string;
-  title: string;
+export type Arrangement = Composition & {
   originalComposer: string | null;
-  description: string | null;
-  lyrics: string | null;
-  voiceParts: string[];
-  pdfUrl: string | null;
-  videoUrl: string | null;
-  audioUrl: string | null;
 };
 
 export type Event = {
@@ -74,10 +67,8 @@ function parseVoiceParts(raw: string | null | undefined): string[] {
   }
 }
 
-export async function getCompositions(): Promise<Composition[]> {
-  const result = await db.execute("SELECT * FROM compositions ORDER BY rowid");
-
-  return result.rows.map((row) => ({
+function mapSongRow(row: Row): Composition {
+  return {
     id: row.id as string,
     title: row.title as string,
     description: row.description as string | null,
@@ -86,7 +77,19 @@ export async function getCompositions(): Promise<Composition[]> {
     pdfUrl: row.pdf_url as string | null,
     videoUrl: row.video_url as string | null,
     audioUrl: row.audio_url as string | null,
-  }));
+  };
+}
+
+function mapArrangementRow(row: Row): Arrangement {
+  return {
+    ...mapSongRow(row),
+    originalComposer: row.original_composer as string | null,
+  };
+}
+
+export async function getCompositions(): Promise<Composition[]> {
+  const result = await db.execute("SELECT * FROM compositions ORDER BY rowid");
+  return result.rows.map(mapSongRow);
 }
 
 export async function getComposition(id: string): Promise<Composition | null> {
@@ -96,35 +99,12 @@ export async function getComposition(id: string): Promise<Composition | null> {
   });
 
   if (result.rows.length === 0) return null;
-
-  const row = result.rows[0];
-
-  return {
-    id: row.id as string,
-    title: row.title as string,
-    description: row.description as string | null,
-    lyrics: row.lyrics as string | null,
-    voiceParts: parseVoiceParts(row.voice_parts as string | null),
-    pdfUrl: row.pdf_url as string | null,
-    videoUrl: row.video_url as string | null,
-    audioUrl: row.audio_url as string | null,
-  };
+  return mapSongRow(result.rows[0]);
 }
 
 export async function getArrangements(): Promise<Arrangement[]> {
   const result = await db.execute("SELECT * FROM arrangements ORDER BY rowid");
-
-  return result.rows.map((row) => ({
-    id: row.id as string,
-    title: row.title as string,
-    originalComposer: row.original_composer as string | null,
-    description: row.description as string | null,
-    lyrics: row.lyrics as string | null,
-    voiceParts: parseVoiceParts(row.voice_parts as string | null),
-    pdfUrl: row.pdf_url as string | null,
-    videoUrl: row.video_url as string | null,
-    audioUrl: row.audio_url as string | null,
-  }));
+  return result.rows.map(mapArrangementRow);
 }
 
 export async function getArrangement(id: string): Promise<Arrangement | null> {
@@ -134,20 +114,7 @@ export async function getArrangement(id: string): Promise<Arrangement | null> {
   });
 
   if (result.rows.length === 0) return null;
-
-  const row = result.rows[0];
-
-  return {
-    id: row.id as string,
-    title: row.title as string,
-    originalComposer: row.original_composer as string | null,
-    description: row.description as string | null,
-    lyrics: row.lyrics as string | null,
-    voiceParts: parseVoiceParts(row.voice_parts as string | null),
-    pdfUrl: row.pdf_url as string | null,
-    videoUrl: row.video_url as string | null,
-    audioUrl: row.audio_url as string | null,
-  };
+  return mapArrangementRow(result.rows[0]);
 }
 
 export async function getUpcomingEvents(): Promise<Event[]> {
