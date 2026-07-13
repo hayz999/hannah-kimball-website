@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useRef, useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Image, { StaticImageData } from 'next/image';
+import { useRef, useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import type { StaticImageData } from "next/image";
+import Image from "next/image";
 
 interface PageHeroProps {
   image: StaticImageData;
@@ -12,7 +13,12 @@ interface PageHeroProps {
   subtitle?: string;
 }
 
-export default function PageHero({ image, alt, title, subtitle }: PageHeroProps) {
+export default function PageHero({
+  image,
+  alt,
+  title,
+  subtitle,
+}: PageHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [parallaxOffset, setParallaxOffset] = useState(0);
 
@@ -25,34 +31,46 @@ export default function PageHero({ image, alt, title, subtitle }: PageHeroProps)
         setParallaxOffset(-rect.top * 0.3);
       }
     };
+
     const onScroll = () => {
       if (!ticking) {
-        requestAnimationFrame(() => { update(); ticking = false; });
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
         ticking = true;
       }
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     update();
-    return () => window.removeEventListener('scroll', onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <Box
       ref={sectionRef}
       component="section"
-      sx={{ position: 'relative', width: '100%', height: { xs: 280, sm: 360, md: 440 }, overflow: 'hidden' }}
+      sx={{
+        position: "relative",
+        width: "100%",
+        height: { xs: 280, sm: 360, md: 440 },
+        overflow: "hidden",
+      }}
       aria-label={`${title} hero section`}
     >
       {/* Background image — oversized to allow parallax shift without blank edges */}
       <Box
         sx={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
           right: 0,
-          top: '2%',
-          height: '160%',
+          top: "2%",
+          height: "160%",
           transform: `translateY(${parallaxOffset}px)`,
-          willChange: 'transform',
+          willChange: "transform",
         }}
       >
         <Image
@@ -60,7 +78,7 @@ export default function PageHero({ image, alt, title, subtitle }: PageHeroProps)
           alt={alt}
           fill
           priority
-          style={{ objectFit: 'cover', objectPosition: 'center center' }}
+          style={{ objectFit: "cover", objectPosition: "center center" }}
           sizes="100vw"
         />
       </Box>
@@ -68,19 +86,20 @@ export default function PageHero({ image, alt, title, subtitle }: PageHeroProps)
       <Box
         aria-hidden="true"
         sx={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
-          background: 'linear-gradient(to bottom, rgba(61,26,110,0.55) 0%, rgba(26,10,50,0.75) 100%)',
+          background:
+            "linear-gradient(to bottom, rgba(61,26,110,0.55) 0%, rgba(26,10,50,0.75) 100%)",
         }}
       />
       {/* Text content */}
       <Box
         sx={{
-          position: 'absolute',
+          position: "absolute",
           inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
           pb: { xs: 4, md: 6 },
           px: { xs: 3, md: 8 },
         }}
@@ -89,11 +108,11 @@ export default function PageHero({ image, alt, title, subtitle }: PageHeroProps)
           variant="h2"
           component="h1"
           sx={{
-            color: '#FFFFFF',
+            color: "#FFFFFF",
             fontWeight: 700,
-            textShadow: '0 2px 12px rgba(0,0,0,0.5)',
+            textShadow: "0 2px 12px rgba(0,0,0,0.5)",
             mb: subtitle ? 1 : 0,
-            fontSize: { xs: '2rem', sm: '2.75rem', md: '3.5rem' },
+            fontSize: { xs: "2rem", sm: "2.75rem", md: "3.5rem" },
           }}
           className="animate-fade-in-up"
         >
@@ -104,10 +123,10 @@ export default function PageHero({ image, alt, title, subtitle }: PageHeroProps)
             variant="h5"
             component="p"
             sx={{
-              color: 'rgba(255,255,255,0.88)',
+              color: "rgba(255,255,255,0.88)",
               fontWeight: 400,
-              textShadow: '0 1px 8px rgba(0,0,0,0.4)',
-              fontSize: { xs: '1rem', sm: '1.25rem' },
+              textShadow: "0 1px 8px rgba(0,0,0,0.4)",
+              fontSize: { xs: "1rem", sm: "1.25rem" },
             }}
             className="animate-fade-in-up stagger-2"
           >

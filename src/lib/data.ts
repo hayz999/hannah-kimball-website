@@ -76,6 +76,7 @@ function parseVoiceParts(raw: string | null | undefined): string[] {
 
 export async function getCompositions(): Promise<Composition[]> {
   const result = await db.execute("SELECT * FROM compositions ORDER BY rowid");
+
   return result.rows.map((row) => ({
     id: row.id as string,
     title: row.title as string,
@@ -93,8 +94,11 @@ export async function getComposition(id: string): Promise<Composition | null> {
     sql: "SELECT * FROM compositions WHERE id = ?",
     args: [id],
   });
+
   if (result.rows.length === 0) return null;
+
   const row = result.rows[0];
+
   return {
     id: row.id as string,
     title: row.title as string,
@@ -109,6 +113,7 @@ export async function getComposition(id: string): Promise<Composition | null> {
 
 export async function getArrangements(): Promise<Arrangement[]> {
   const result = await db.execute("SELECT * FROM arrangements ORDER BY rowid");
+
   return result.rows.map((row) => ({
     id: row.id as string,
     title: row.title as string,
@@ -127,8 +132,11 @@ export async function getArrangement(id: string): Promise<Arrangement | null> {
     sql: "SELECT * FROM arrangements WHERE id = ?",
     args: [id],
   });
+
   if (result.rows.length === 0) return null;
+
   const row = result.rows[0];
+
   return {
     id: row.id as string,
     title: row.title as string,
@@ -146,6 +154,7 @@ export async function getUpcomingEvents(): Promise<Event[]> {
   const result = await db.execute(
     "SELECT * FROM events ORDER BY start_date ASC",
   );
+
   return result.rows.map((row) => ({
     id: row.id as string,
     title: row.title as string,
@@ -161,6 +170,7 @@ export async function getGigs(): Promise<Gig[]> {
   const result = await db.execute(
     "SELECT * FROM gigs ORDER BY start_date DESC",
   );
+
   return result.rows.map((row) => ({
     id: row.id as string,
     choirName: row.choir_name as string,
@@ -173,10 +183,13 @@ export async function getGigs(): Promise<Gig[]> {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   const result = await db.execute("SELECT key, value FROM site_settings");
+
   const map: Record<string, string> = {};
+
   for (const row of result.rows) {
     map[row.key as string] = row.value as string;
   }
+
   return {
     aboutHeading: map["about_heading"] ?? "",
     aboutBody: map["about_body"] ?? "",
@@ -198,10 +211,13 @@ export async function getContactInfo(): Promise<ContactInfo> {
   const result = await db.execute(
     "SELECT key, value FROM site_settings WHERE key IN ('contact_instagram','contact_instagram_handle','contact_linkedin','contact_email')",
   );
+
   const map: Record<string, string> = {};
+
   for (const row of result.rows) {
     map[row.key as string] = row.value as string;
   }
+  
   return {
     instagram: map["contact_instagram"] ?? "",
     instagramHandle: map["contact_instagram_handle"] ?? "",

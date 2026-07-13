@@ -2,7 +2,7 @@ import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import EmailIcon from "@mui/icons-material/Email";
-import { SiteSettings } from "@/lib/data";
+import type { SiteSettings } from "@/lib/data";
 
 export default function SocialMedia({ settings }: { settings: SiteSettings }) {
   return (

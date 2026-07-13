@@ -1,4 +1,4 @@
-import { SiteSettings } from "@/lib/data";
+import type { SiteSettings } from "@/lib/data";
 import { Box, Container, Divider, Typography } from "@mui/material";
 
 export default function FeaturedVideo({

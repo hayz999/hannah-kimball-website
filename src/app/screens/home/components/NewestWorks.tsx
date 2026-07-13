@@ -11,7 +11,7 @@ import {
 
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 
-import { Composition, Arrangement } from "@/lib/data";
+import type { Composition, Arrangement } from "@/lib/data";
 
 import NavButton from "@/app/components/NavButton";
 

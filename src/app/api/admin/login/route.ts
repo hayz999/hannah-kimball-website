@@ -1,12 +1,14 @@
 import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
 import { createHmac, randomBytes } from 'crypto';
-import { AdminSession, sessionOptions } from '@/lib/session';
+import type { AdminSession} from '@/lib/session';
+import { sessionOptions } from '@/lib/session';
 
 function constantTimeEqual(a: string, b: string): boolean {
   const key = randomBytes(32);
   const hmacA = createHmac('sha256', key).update(a).digest();
   const hmacB = createHmac('sha256', key).update(b).digest();
+
   return hmacA.equals(hmacB);
 }
 
@@ -26,6 +28,7 @@ export async function POST(request: Request) {
 
   const cookieStore = await cookies();
   const session = await getIronSession<AdminSession>(cookieStore, sessionOptions);
+  
   session.isLoggedIn = true;
   session.username = username;
   await session.save();

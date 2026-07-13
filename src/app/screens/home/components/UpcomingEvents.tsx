@@ -17,16 +17,21 @@ import type { Event } from "@/lib/data";
 function formatEventDate(start: string, end: string): string {
   const s = new Date(start + "T00:00:00");
   const e = new Date(end + "T00:00:00");
+
   const opts: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "numeric",
     year: "numeric",
   };
+
   if (start === end) return s.toLocaleDateString("en-US", opts);
+
   const sameMY =
     s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
+
   if (sameMY)
-    return `${s.toLocaleDateString("en-US", { month: "long", day: "numeric" })}–${e.getDate()}, ${e.getFullYear()}`;
+    {return `${s.toLocaleDateString("en-US", { month: "long", day: "numeric" })}–${e.getDate()}, ${e.getFullYear()}`;}
+
   return `${s.toLocaleDateString("en-US", opts)} – ${e.toLocaleDateString("en-US", opts)}`;
 }
 
