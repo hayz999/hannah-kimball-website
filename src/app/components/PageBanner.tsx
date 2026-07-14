@@ -13,7 +13,7 @@ export default function PageBanner({ title, subtitle, ariaLabel }: PageBannerPro
       component="section"
       aria-label={ariaLabel ?? `${title} header`}
       sx={{
-        background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)',
+        background: 'linear-gradient(135deg, #FF3E8E 0%, #5B2D8E 100%)',
         py: { xs: 7, md: 10 },
         px: 3,
         textAlign: 'center',
@@ -22,7 +22,12 @@ export default function PageBanner({ title, subtitle, ariaLabel }: PageBannerPro
       <Typography
         variant="h2"
         component="h1"
-        sx={{ color: '#FFFFFF', fontWeight: 700, mb: subtitle ? 1.5 : 0 }}
+        sx={{
+          color: '#FFFFFF',
+          fontWeight: 700,
+          mb: subtitle ? 1.5 : 0,
+          fontSize: { xs: '2rem', sm: '2.75rem', md: '3.5rem' },
+        }}
         className="animate-fade-in-up"
       >
         {title}

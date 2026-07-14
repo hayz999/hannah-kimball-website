@@ -43,7 +43,7 @@ export default async function CompositionsPage() {
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="body1" color="text.secondary">
             Interested in performing one of these works?{" "}
-            <Link href="/contact" style={{ color: "#1d6db3", fontWeight: 600 }}>
+            <Link href="/contact" style={{ color: "#00888C", fontWeight: 600 }}>
               Get in touch
             </Link>{" "}
             to discuss licensing and performance materials.

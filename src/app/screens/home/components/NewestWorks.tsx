@@ -76,7 +76,7 @@ export default function NewestWorks({
                   <Typography
                     variant="overline"
                     sx={{
-                      color: "#b3d7f9",
+                      color: "#7FEFF1",
                       fontWeight: 700,
                       letterSpacing: "0.15em",
                     }}
@@ -158,7 +158,7 @@ export default function NewestWorks({
                   <Typography
                     variant="overline"
                     sx={{
-                      color: "#b3d7f9",
+                      color: "#7FEFF1",
                       fontWeight: 700,
                       letterSpacing: "0.15em",
                     }}

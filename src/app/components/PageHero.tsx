@@ -88,10 +88,9 @@ export default function PageHero({
         sx={{
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(160deg, rgba(0,50,100,0.75) 0%, rgba(42,123,196,0.55) 50%, rgba(0,20,50,0.85) 100%)",
         }}
       />
+
       {/* Text content */}
       <Box
         sx={{

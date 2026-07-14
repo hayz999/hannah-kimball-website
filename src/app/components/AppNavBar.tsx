@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import MusicNoteIcon from "@mui/icons-material/MusicNote";
 
 type NavPage = {
   label: string;
@@ -22,18 +22,32 @@ type NavPage = {
 };
 
 const pages: NavPage[] = [
-  { label: 'About',            href: '/about',           ariaLabel: 'Go to about page' },
-  { label: 'Choral Directing', href: '/choral-directing',ariaLabel: 'Go to choral directing page' },
-  { label: 'Compositions',     href: '/compositions',    ariaLabel: 'Go to compositions page' },
-  { label: 'Arrangements',     href: '/arrangements',    ariaLabel: 'Go to arrangements page' },
-  { label: 'Contact',          href: '/contact',         ariaLabel: 'Go to contact page' },
+  { label: "About", href: "/about", ariaLabel: "Go to about page" },
+  {
+    label: "Choral Directing",
+    href: "/choral-directing",
+    ariaLabel: "Go to choral directing page",
+  },
+  {
+    label: "Compositions",
+    href: "/compositions",
+    ariaLabel: "Go to compositions page",
+  },
+  {
+    label: "Arrangements",
+    href: "/arrangements",
+    ariaLabel: "Go to arrangements page",
+  },
+  { label: "Contact", href: "/contact", ariaLabel: "Go to contact page" },
 ];
 
 export default function AppNavBar() {
   const pathname = usePathname();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null,
+  );
 
-  if (pathname.startsWith('/admin')) return null;
+  if (pathname.startsWith("/admin")) return null;
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -44,10 +58,15 @@ export default function AppNavBar() {
   };
 
   const isActive = (href: string) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href);
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <AppBar position="sticky" role="navigation" aria-label="Main navigation">
+    <AppBar
+      position="sticky"
+      role="navigation"
+      aria-label="Main navigation"
+      className="section-pattern"
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ minHeight: { xs: 56, md: 64 } }}>
           {/* Home tab — visible on all viewports */}
@@ -56,26 +75,36 @@ export default function AppNavBar() {
             href="/"
             aria-label="Home"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
               gap: 0.75,
-              textDecoration: 'none',
-              color: 'white',
-              mr: { xs: 'auto', md: 4 },
+              textDecoration: "none",
+              color: "#1A1A2E",
+              backgroundColor: "#00C2C7",
+              border: "2px solid #1A1A2E",
+              borderRadius: "10px 3px 10px 3px",
+              boxShadow: "2.5px 2.5px 0 #1A1A2E",
+              px: 1.25,
+              py: 0.25,
+              mr: { xs: "auto", md: 4 },
             }}
           >
             <MusicNoteIcon fontSize="small" aria-hidden="true" />
             <Typography
               variant="h6"
               component="span"
-              sx={{ fontWeight: 700, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "0.02em",
+                whiteSpace: "nowrap",
+              }}
             >
               Home
             </Typography>
           </Box>
 
           {/* Mobile hamburger */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="Open navigation menu"
@@ -90,17 +119,20 @@ export default function AppNavBar() {
             <Menu
               id="mobile-nav-menu"
               anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               keepMounted
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ display: { xs: "block", md: "none" } }}
               slotProps={{
                 paper: {
                   sx: {
-                    backgroundColor: '#1d6db3',
-                    color: 'white',
+                    backgroundColor: "#FFFDF7",
+                    color: "#1A1A2E",
+                    border: "2px solid #1A1A2E",
+                    borderRadius: "4px 16px 4px 16px",
+                    boxShadow: "4px 4px 0 #1A1A2E",
                     minWidth: 200,
                   },
                 },
@@ -113,12 +145,14 @@ export default function AppNavBar() {
                   href={page.href}
                   onClick={handleCloseNavMenu}
                   aria-label={page.ariaLabel}
-                  aria-current={isActive(page.href) ? 'page' : undefined}
+                  aria-current={isActive(page.href) ? "page" : undefined}
                   sx={{
-                    color: 'white',
+                    color: "#1A1A2E",
                     fontWeight: isActive(page.href) ? 700 : 400,
-                    borderLeft: isActive(page.href) ? '3px solid #5B2D8E' : '3px solid transparent',
-                    '&:hover': { backgroundColor: 'rgba(255,255,255,0.12)' },
+                    borderLeft: isActive(page.href)
+                      ? "3px solid #FF3E8E"
+                      : "3px solid transparent",
+                    "&:hover": { backgroundColor: "rgba(26,26,46,0.06)" },
                   }}
                 >
                   {page.label}
@@ -128,35 +162,40 @@ export default function AppNavBar() {
           </Box>
 
           {/* Desktop nav links */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, ml: 'auto' }}>
+          <Box
+            sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, ml: "auto" }}
+          >
             {pages.map((page) => (
               <Button
                 key={page.href}
                 component={Link}
                 href={page.href}
                 aria-label={page.ariaLabel}
-                aria-current={isActive(page.href) ? 'page' : undefined}
+                aria-current={isActive(page.href) ? "page" : undefined}
                 sx={{
-                  color: 'white',
+                  color: "#1A1A2E",
                   fontWeight: isActive(page.href) ? 700 : 400,
                   px: 1.5,
                   py: 1,
-                  position: 'relative',
+                  position: "relative",
                   borderRadius: 1,
-                  '&::after': {
+                  border: "none",
+                  boxShadow: "none",
+                  "&:active": { transform: "none", boxShadow: "none" },
+                  "&::after": {
                     content: '""',
-                    position: 'absolute',
+                    position: "absolute",
                     bottom: 4,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: isActive(page.href) ? '60%' : '0%',
-                    height: '2px',
-                    backgroundColor: '#5B2D8E',
-                    transition: 'width 0.25s ease',
-                    borderRadius: '1px',
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: isActive(page.href) ? "60%" : "0%",
+                    height: "3px",
+                    backgroundColor: "#FF3E8E",
+                    transition: "width 0.25s ease",
+                    borderRadius: "1px",
                   },
-                  '&:hover::after': { width: '60%' },
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.08)' },
+                  "&:hover::after": { width: "60%" },
+                  "&:hover": { backgroundColor: "rgba(26,26,46,0.06)" },
                 }}
               >
                 {page.label}

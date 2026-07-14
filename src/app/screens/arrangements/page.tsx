@@ -44,7 +44,7 @@ export default async function ArrangementsPage() {
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="body1" color="text.secondary">
             Looking for a specific arrangement?{' '}
-            <Link href="/contact" style={{ color: '#1d6db3', fontWeight: 600 }}>
+            <Link href="/contact" style={{ color: '#00888C', fontWeight: 600 }}>
               Contact Hannah
             </Link>{' '}
             to discuss custom arrangements for your ensemble.

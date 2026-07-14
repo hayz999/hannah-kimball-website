@@ -47,11 +47,11 @@ export default function SongCard({
               height: { xs: 90, sm: 120 },
               flexShrink: 0,
               borderRadius: 2,
-              backgroundColor: "#EDF4FD",
+              backgroundColor: "#FFF3D6",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              border: "1px solid #C5DEF9",
+              border: "1.5px solid #F5B700",
             }}
           >
             {pdfUrl ? (
@@ -73,7 +73,7 @@ export default function SongCard({
               <MusicNoteIcon
                 sx={{
                   fontSize: { xs: 36, sm: 48 },
-                  color: "#2a7bc4",
+                  color: "#00888C",
                   opacity: 0.5,
                 }}
               />
@@ -131,7 +131,7 @@ export default function SongCard({
                   size="small"
                   role="listitem"
                   sx={{
-                    backgroundColor: "#C5DEF9",
+                    backgroundColor: "#B8F0F1",
                     color: "primary.dark",
                     fontWeight: 600,
                   }}

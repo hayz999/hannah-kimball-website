@@ -36,7 +36,7 @@ export default function SongDetailLayout({
 }: SongDetailLayoutProps) {
   return (
     <Box>
-      <Box sx={{ background: 'linear-gradient(135deg, #1d6db3 0%, #2a7bc4 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
+      <Box sx={{ background: 'linear-gradient(135deg, #FF3E8E 0%, #5B2D8E 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
         <Container maxWidth="lg">
           <NavButton
             href={backHref}
@@ -90,7 +90,7 @@ export default function SongDetailLayout({
               </Typography>
               <Box
                 sx={{
-                  backgroundColor: '#EDF4FD',
+                  backgroundColor: '#FFF3D6',
                   borderLeft: '4px solid',
                   borderColor: 'secondary.main',
                   borderRadius: '0 8px 8px 0',
@@ -121,7 +121,7 @@ export default function SongDetailLayout({
                 </Typography>
                 <Box
                   className="responsive-iframe-wrapper"
-                  sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 24px rgba(42,123,196,0.2)' }}
+                  sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,194,199,0.25)' }}
                   role="region"
                   aria-label={`Video: ${song.title}`}
                 >
@@ -159,7 +159,7 @@ export default function SongDetailLayout({
                   sx={{
                     borderRadius: 2,
                     overflow: 'hidden',
-                    boxShadow: '0 4px 24px rgba(42,123,196,0.15)',
+                    boxShadow: '0 4px 24px rgba(0,194,199,0.2)',
                     height: { xs: 400, md: 600 },
                   }}
                   role="region"
@@ -183,7 +183,7 @@ export default function SongDetailLayout({
                 borderRadius: 3,
                 border: '1px solid',
                 borderColor: 'divider',
-                backgroundColor: '#FAFAFA',
+                backgroundColor: '#FFFDF7',
                 position: { md: 'sticky' },
                 top: { md: 88 },
               }}
@@ -192,7 +192,7 @@ export default function SongDetailLayout({
                 sx={{
                   width: '100%',
                   aspectRatio: '8.5/11',
-                  backgroundColor: '#EDF4FD',
+                  backgroundColor: '#FFF3D6',
                   borderRadius: 2,
                   display: 'flex',
                   flexDirection: 'column',
@@ -200,11 +200,11 @@ export default function SongDetailLayout({
                   justifyContent: 'center',
                   gap: 1,
                   mb: 3,
-                  border: '1px solid #C5DEF9',
+                  border: '1.5px solid #F5B700',
                 }}
                 aria-hidden="true"
               >
-                <MusicNoteIcon sx={{ fontSize: 64, color: '#2a7bc4', opacity: 0.35 }} />
+                <MusicNoteIcon sx={{ fontSize: 64, color: '#00888C', opacity: 0.35 }} />
                 <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', px: 2 }}>
                   {song.pdfUrl ? 'Score available' : 'Score available upon purchase'}
                 </Typography>
