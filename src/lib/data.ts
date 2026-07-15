@@ -8,6 +8,8 @@ export type Composition = {
   lyrics: string | null;
   voiceParts: string[];
   pdfUrl: string | null;
+  pdfUrl2: string | null;
+  pdfUrl3: string | null;
   videoUrl: string | null;
   audioUrl: string | null;
 };
@@ -43,8 +45,8 @@ export type SiteSettings = {
   featuredVideoUrl: string;
   featuredVideoTitle: string;
   featuredVideoDescription: string;
-  newestCompositionId: string;
-  newestArrangementId: string;
+  featuredCompositionId: string;
+  featuredArrangementId: string;
   contactInstagram: string;
   contactInstagramHandle: string;
   contactLinkedin: string;
@@ -75,6 +77,8 @@ function mapSongRow(row: Row): Composition {
     lyrics: row.lyrics as string | null,
     voiceParts: parseVoiceParts(row.voice_parts as string | null),
     pdfUrl: row.pdf_url as string | null,
+    pdfUrl2: row.pdf_url_2 as string | null,
+    pdfUrl3: row.pdf_url_3 as string | null,
     videoUrl: row.video_url as string | null,
     audioUrl: row.audio_url as string | null,
   };
@@ -165,8 +169,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     featuredVideoUrl: map["featured_video_url"] ?? "",
     featuredVideoTitle: map["featured_video_title"] ?? "",
     featuredVideoDescription: map["featured_video_description"] ?? "",
-    newestCompositionId: map["newest_composition_id"] ?? "",
-    newestArrangementId: map["newest_arrangement_id"] ?? "",
+    featuredCompositionId: map["featured_composition_id"] ?? "",
+    featuredArrangementId: map["featured_arrangement_id"] ?? "",
     contactInstagram: map["contact_instagram"] ?? "",
     contactInstagramHandle: map["contact_instagram_handle"] ?? "",
     contactLinkedin: map["contact_linkedin"] ?? "",

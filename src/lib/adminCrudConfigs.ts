@@ -8,9 +8,11 @@ export const compositionsConfig: CrudConfig = {
     { column: 'description', field: 'description', default: null },
     { column: 'lyrics', field: 'lyrics', default: null },
     { column: 'voice_parts', field: 'voice_parts', default: null, json: true },
-    { column: 'pdf_url', field: 'pdf_url', default: null },
+    { column: 'pdf_url', field: 'pdf_url', default: null, file: true },
+    { column: 'pdf_url_2', field: 'pdf_url_2', default: null, file: true },
+    { column: 'pdf_url_3', field: 'pdf_url_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
-    { column: 'audio_url', field: 'audio_url', default: null },
+    { column: 'audio_url', field: 'audio_url', default: null, file: true },
   ],
 };
 
@@ -23,9 +25,11 @@ export const arrangementsConfig: CrudConfig = {
     { column: 'description', field: 'description', default: null },
     { column: 'lyrics', field: 'lyrics', default: null },
     { column: 'voice_parts', field: 'voice_parts', default: null, json: true },
-    { column: 'pdf_url', field: 'pdf_url', default: null },
+    { column: 'pdf_url', field: 'pdf_url', default: null, file: true },
+    { column: 'pdf_url_2', field: 'pdf_url_2', default: null, file: true },
+    { column: 'pdf_url_3', field: 'pdf_url_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
-    { column: 'audio_url', field: 'audio_url', default: null },
+    { column: 'audio_url', field: 'audio_url', default: null, file: true },
   ],
 };
 

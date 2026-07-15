@@ -7,7 +7,7 @@ type UseCrudResourceOptions<Row, Form> = {
   toBody: (form: Form) => unknown;
 };
 
-export function useCrudResource<Row extends { id: string }, Form extends Record<string, string>>({
+export function useCrudResource<Row extends { id: string }, Form extends Record<string, unknown>>({
   endpoint,
   emptyForm,
   toForm,
@@ -65,10 +65,12 @@ export function useCrudResource<Row extends { id: string }, Form extends Record<
   async function saveAdd() {
     setSaving(true);
     try {
+      const payload = toBody(form);
+      const isFormData = payload instanceof FormData;
       const r = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(toBody(form)),
+        headers: isFormData ? undefined : { "Content-Type": "application/json" },
+        body: isFormData ? payload : JSON.stringify(payload),
       });
       if (!r.ok) throw new Error("save failed");
       setAdding(false);
@@ -84,10 +86,12 @@ export function useCrudResource<Row extends { id: string }, Form extends Record<
     if (!editItem) return;
     setSaving(true);
     try {
+      const payload = toBody(form);
+      const isFormData = payload instanceof FormData;
       const r = await fetch(`${endpoint}/${editItem.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(toBody(form)),
+        headers: isFormData ? undefined : { "Content-Type": "application/json" },
+        body: isFormData ? payload : JSON.stringify(payload),
       });
       if (!r.ok) throw new Error("save failed");
       setEditItem(null);
@@ -127,6 +131,7 @@ export function useCrudResource<Row extends { id: string }, Form extends Record<
     setAdding,
     form,
     set,
+    setForm,
     startAdd,
     startEdit,
     saveAdd,

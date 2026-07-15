@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import NewestWorks from "./components/NewestWorks";
+import FeaturedWorks from "./components/FeaturedWorks";
 import UpcomingEvents from "./components/UpcomingEvents";
 import {
   getComposition,
@@ -16,21 +16,21 @@ export default async function HomeScreen() {
     getUpcomingEvents(),
   ]);
 
-  const [newestComposition, newestArrangement] = await Promise.all([
-    settings.newestCompositionId
-      ? getComposition(settings.newestCompositionId)
+  const [featuredComposition, featuredArrangement] = await Promise.all([
+    settings.featuredCompositionId
+      ? getComposition(settings.featuredCompositionId)
       : null,
-    settings.newestArrangementId
-      ? getArrangement(settings.newestArrangementId)
+    settings.featuredArrangementId
+      ? getArrangement(settings.featuredArrangementId)
       : null,
   ]);
 
   return (
     <Box>
       <UpcomingEvents upcomingEvents={upcomingEvents} />
-      <NewestWorks
-        newestComposition={newestComposition}
-        newestArrangement={newestArrangement}
+      <FeaturedWorks
+        featuredComposition={featuredComposition}
+        featuredArrangement={featuredArrangement}
       />
       <FeaturedVideo settings={settings} />
       <SocialMedia settings={settings} />

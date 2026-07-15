@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import { useCrudResource } from "../useCrudResource";
+import FileUploadField from "../FileUploadField";
 
 type Row = {
   id: string;
@@ -28,6 +29,8 @@ type Row = {
   lyrics: string | null;
   voice_parts: string | null;
   pdf_url: string | null;
+  pdf_url_2: string | null;
+  pdf_url_3: string | null;
   video_url: string | null;
   audio_url: string | null;
 };
@@ -38,9 +41,19 @@ type Form = {
   description: string;
   lyrics: string;
   voice_parts: string;
-  pdf_url: string;
   video_url: string;
+  pdf_url: string;
+  pdf_file: File | null;
+  pdf_clear: boolean;
+  pdf_url_2: string;
+  pdf_file_2: File | null;
+  pdf_clear_2: boolean;
+  pdf_url_3: string;
+  pdf_file_3: File | null;
+  pdf_clear_3: boolean;
   audio_url: string;
+  audio_file: File | null;
+  audio_clear: boolean;
 };
 
 const empty: Form = {
@@ -49,9 +62,19 @@ const empty: Form = {
   description: "",
   lyrics: "",
   voice_parts: "",
-  pdf_url: "",
   video_url: "",
+  pdf_url: "",
+  pdf_file: null,
+  pdf_clear: false,
+  pdf_url_2: "",
+  pdf_file_2: null,
+  pdf_clear_2: false,
+  pdf_url_3: "",
+  pdf_file_3: null,
+  pdf_clear_3: false,
   audio_url: "",
+  audio_file: null,
+  audio_clear: false,
 };
 
 function toForm(row: Row): Form {
@@ -69,28 +92,61 @@ function toForm(row: Row): Form {
     description: row.description ?? "",
     lyrics: row.lyrics ?? "",
     voice_parts: vp.join(", "),
-    pdf_url: row.pdf_url ?? "",
     video_url: row.video_url ?? "",
+    pdf_url: row.pdf_url ?? "",
+    pdf_file: null,
+    pdf_clear: false,
+    pdf_url_2: row.pdf_url_2 ?? "",
+    pdf_file_2: null,
+    pdf_clear_2: false,
+    pdf_url_3: row.pdf_url_3 ?? "",
+    pdf_file_3: null,
+    pdf_clear_3: false,
     audio_url: row.audio_url ?? "",
+    audio_file: null,
+    audio_clear: false,
   };
 }
 
-function toBody(f: Form) {
-  return {
-    title: f.title,
-    original_composer: f.original_composer || null,
-    description: f.description || null,
-    lyrics: f.lyrics || null,
-    voice_parts: f.voice_parts
-      ? f.voice_parts
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean)
-      : [],
-    pdf_url: f.pdf_url || null,
-    video_url: f.video_url || null,
-    audio_url: f.audio_url || null,
-  };
+function appendFileField(
+  fd: FormData,
+  field: string,
+  existingUrl: string,
+  file: File | null,
+  clear: boolean,
+) {
+  if (clear) {
+    fd.set(`${field}__clear`, "1");
+  } else if (file) {
+    fd.set(field, file);
+  } else if (existingUrl) {
+    fd.set(`${field}__existing`, existingUrl);
+  }
+}
+
+function toBody(f: Form): FormData {
+  const fd = new FormData();
+  fd.set("title", f.title);
+  fd.set("original_composer", f.original_composer);
+  fd.set("description", f.description);
+  fd.set("lyrics", f.lyrics);
+  fd.set(
+    "voice_parts",
+    JSON.stringify(
+      f.voice_parts
+        ? f.voice_parts
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [],
+    ),
+  );
+  fd.set("video_url", f.video_url);
+  appendFileField(fd, "pdf_url", f.pdf_url, f.pdf_file, f.pdf_clear);
+  appendFileField(fd, "pdf_url_2", f.pdf_url_2, f.pdf_file_2, f.pdf_clear_2);
+  appendFileField(fd, "pdf_url_3", f.pdf_url_3, f.pdf_file_3, f.pdf_clear_3);
+  appendFileField(fd, "audio_url", f.audio_url, f.audio_file, f.audio_clear);
+  return fd;
 }
 
 function voiceParts(row: Row): string[] {
@@ -115,6 +171,7 @@ export default function ArrangementsAdminPage() {
     setAdding,
     form,
     set,
+    setForm,
     startAdd,
     startEdit,
     saveAdd,
@@ -169,25 +226,47 @@ export default function ArrangementsAdminPage() {
         size="small"
       />
       <TextField
-        label="PDF URL"
-        value={form.pdf_url}
-        onChange={set("pdf_url")}
-        fullWidth
-        size="small"
-      />
-      <TextField
         label="Video URL"
         value={form.video_url}
         onChange={set("video_url")}
         fullWidth
         size="small"
       />
-      <TextField
-        label="Audio URL"
-        value={form.audio_url}
-        onChange={set("audio_url")}
-        fullWidth
-        size="small"
+      <FileUploadField
+        label="PDF (score)"
+        accept="application/pdf"
+        existingUrl={form.pdf_url}
+        file={form.pdf_file}
+        clear={form.pdf_clear}
+        onFileChange={(file) => setForm((f) => ({ ...f, pdf_file: file }))}
+        onClearChange={(clear) => setForm((f) => ({ ...f, pdf_clear: clear }))}
+      />
+      <FileUploadField
+        label="PDF (additional #2, optional)"
+        accept="application/pdf"
+        existingUrl={form.pdf_url_2}
+        file={form.pdf_file_2}
+        clear={form.pdf_clear_2}
+        onFileChange={(file) => setForm((f) => ({ ...f, pdf_file_2: file }))}
+        onClearChange={(clear) => setForm((f) => ({ ...f, pdf_clear_2: clear }))}
+      />
+      <FileUploadField
+        label="PDF (additional #3, optional)"
+        accept="application/pdf"
+        existingUrl={form.pdf_url_3}
+        file={form.pdf_file_3}
+        clear={form.pdf_clear_3}
+        onFileChange={(file) => setForm((f) => ({ ...f, pdf_file_3: file }))}
+        onClearChange={(clear) => setForm((f) => ({ ...f, pdf_clear_3: clear }))}
+      />
+      <FileUploadField
+        label="Audio"
+        accept="audio/*"
+        existingUrl={form.audio_url}
+        file={form.audio_file}
+        clear={form.audio_clear}
+        onFileChange={(file) => setForm((f) => ({ ...f, audio_file: file }))}
+        onClearChange={(clear) => setForm((f) => ({ ...f, audio_clear: clear }))}
       />
     </Box>
   );

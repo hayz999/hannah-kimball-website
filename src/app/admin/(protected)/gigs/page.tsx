@@ -161,7 +161,7 @@ export default function GigsAdminPage() {
             component="h1"
             sx={{ color: "white", fontWeight: 700 }}
           >
-            Conducting Gigs
+            Conducting Experience
           </Typography>
           <Button
             variant="contained"
@@ -174,7 +174,7 @@ export default function GigsAdminPage() {
               "&:hover": { backgroundColor: "#f0f0f0" },
             }}
           >
-            Add Gig
+            Add Experience
           </Button>
         </Container>
       </Box>
@@ -266,7 +266,7 @@ export default function GigsAdminPage() {
                 color="text.secondary"
                 sx={{ textAlign: "center", py: 6 }}
               >
-                No gigs yet.
+                No experience yet.
               </Typography>
             )}
           </Box>
@@ -279,7 +279,7 @@ export default function GigsAdminPage() {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{ fontWeight: 700 }}>Add Gig</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>Add Experience</DialogTitle>
         <DialogContent>{formFields}</DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
           <Button onClick={() => setAdding(false)}>Cancel</Button>

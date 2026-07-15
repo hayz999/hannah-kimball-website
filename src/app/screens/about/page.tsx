@@ -60,7 +60,7 @@ export default async function AboutPage() {
                 mt: 2,
                 p: 2.5,
                 borderRadius: 2,
-                backgroundColor: "#FFF3D6",
+                backgroundColor: "#FFFF",
                 borderLeft: "4px solid",
                 borderColor: "secondary.main",
               }}

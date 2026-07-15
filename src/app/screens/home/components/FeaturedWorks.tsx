@@ -15,17 +15,17 @@ import type { Composition, Arrangement } from "@/lib/data";
 
 import NavButton from "@/app/components/NavButton";
 
-export default function NewestWorks({
-  newestComposition,
-  newestArrangement,
+export default function FeaturedWorks({
+  featuredComposition,
+  featuredArrangement,
 }: {
-  newestComposition: Composition | null;
-  newestArrangement: Arrangement | null;
+  featuredComposition: Composition | null;
+  featuredArrangement: Arrangement | null;
 }) {
   return (
     <Box
       component="section"
-      aria-labelledby="newest-heading"
+      aria-labelledby="featured-heading"
       sx={{
         py: { xs: 7, md: 10 },
         background: "linear-gradient(135deg, #3D1A6E 0%, #5B2D8E 100%)",
@@ -33,13 +33,13 @@ export default function NewestWorks({
     >
       <Container maxWidth="lg">
         <Typography
-          id="newest-heading"
+          id="featured-heading"
           variant="h3"
           component="h2"
           sx={{ fontWeight: 700, mb: 1, color: "#FFFFFF" }}
           className="animate-fade-in-up"
         >
-          Newest Works
+          Featured Works
         </Typography>
         <Divider
           sx={{
@@ -57,7 +57,7 @@ export default function NewestWorks({
             gap: 3,
           }}
         >
-          {newestComposition && (
+          {featuredComposition && (
             <Card
               elevation={0}
               className="animate-fade-in-up stagger-1"
@@ -69,8 +69,8 @@ export default function NewestWorks({
             >
               <CardActionArea
                 component="a"
-                href={`/compositions/${newestComposition.id}`}
-                aria-label={`View composition: ${newestComposition.title}`}
+                href={`/compositions/${featuredComposition.id}`}
+                aria-label={`View composition: ${featuredComposition.title}`}
               >
                 <CardContent sx={{ p: 3 }}>
                   <Typography
@@ -81,7 +81,7 @@ export default function NewestWorks({
                       letterSpacing: "0.15em",
                     }}
                   >
-                    Latest Composition
+                    Featured Composition
                   </Typography>
                   <Box
                     sx={{
@@ -104,7 +104,7 @@ export default function NewestWorks({
                     component="h3"
                     sx={{ fontWeight: 700, color: "#FFFFFF", mb: 1 }}
                   >
-                    {newestComposition.title}
+                    {featuredComposition.title}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -117,10 +117,10 @@ export default function NewestWorks({
                       overflow: "hidden",
                     }}
                   >
-                    {newestComposition.description}
+                    {featuredComposition.description}
                   </Typography>
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
-                    {newestComposition.voiceParts.map((part) => (
+                    {featuredComposition.voiceParts.map((part) => (
                       <Chip
                         key={part}
                         label={part}
@@ -139,7 +139,7 @@ export default function NewestWorks({
             </Card>
           )}
 
-          {newestArrangement && (
+          {featuredArrangement && (
             <Card
               elevation={0}
               className="animate-fade-in-up stagger-2"
@@ -151,8 +151,8 @@ export default function NewestWorks({
             >
               <CardActionArea
                 component="a"
-                href={`/arrangements/${newestArrangement.id}`}
-                aria-label={`View arrangement: ${newestArrangement.title}`}
+                href={`/arrangements/${featuredArrangement.id}`}
+                aria-label={`View arrangement: ${featuredArrangement.title}`}
               >
                 <CardContent sx={{ p: 3 }}>
                   <Typography
@@ -163,7 +163,7 @@ export default function NewestWorks({
                       letterSpacing: "0.15em",
                     }}
                   >
-                    Latest Arrangement
+                    Featured Arrangement
                   </Typography>
                   <Box
                     sx={{
@@ -186,7 +186,7 @@ export default function NewestWorks({
                     component="h3"
                     sx={{ fontWeight: 700, color: "#FFFFFF", mb: 1 }}
                   >
-                    {newestArrangement.title}
+                    {featuredArrangement.title}
                   </Typography>
                   <Typography
                     variant="body2"
@@ -199,10 +199,10 @@ export default function NewestWorks({
                       overflow: "hidden",
                     }}
                   >
-                    {newestArrangement.description}
+                    {featuredArrangement.description}
                   </Typography>
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
-                    {newestArrangement.voiceParts.map((part) => (
+                    {featuredArrangement.voiceParts.map((part) => (
                       <Chip
                         key={part}
                         label={part}

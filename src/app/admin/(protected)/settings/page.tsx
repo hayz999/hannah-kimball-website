@@ -24,7 +24,11 @@ const TEXT_FIELDS: { key: string; label: string; multiline?: boolean }[] = [
   { key: "about_specialties", label: "Specialties" },
   { key: "featured_video_url", label: "Featured Video URL (embed)" },
   { key: "featured_video_title", label: "Featured Video Title" },
-  { key: "featured_video_description", label: "Featured Video Description" },
+  {
+    key: "featured_video_description",
+    label: "Featured Video Description",
+    multiline: true,
+  },
   { key: "contact_instagram", label: "Instagram URL" },
   { key: "contact_instagram_handle", label: "Instagram Handle" },
   { key: "contact_linkedin", label: "LinkedIn URL" },
@@ -162,6 +166,8 @@ export default function SettingsAdminPage() {
                 label={f.label}
                 value={settings[f.key] ?? ""}
                 onChange={setField(f.key)}
+                multiline={f.multiline}
+                rows={f.multiline ? 6 : undefined}
                 fullWidth
                 size="small"
                 sx={{ mb: 2.5 }}
@@ -178,19 +184,21 @@ export default function SettingsAdminPage() {
                 mb: 2,
               }}
             >
-              Newest Works (Homepage)
+              Featured Works (Homepage)
             </Typography>
 
             <FormControl fullWidth size="small" sx={{ mb: 2.5 }}>
-              <InputLabel id="newest-comp-label">Newest Composition</InputLabel>
+              <InputLabel id="featured-comp-label">
+                Featured Composition
+              </InputLabel>
               <Select
-                labelId="newest-comp-label"
-                label="Newest Composition"
-                value={settings["newest_composition_id"] ?? ""}
+                labelId="featured-comp-label"
+                label="Featured Composition"
+                value={settings["featured_composition_id"] ?? ""}
                 onChange={(e) =>
                   setSettings((s) => ({
                     ...s,
-                    newest_composition_id: e.target.value,
+                    featured_composition_id: e.target.value,
                   }))
                 }
               >
@@ -206,15 +214,17 @@ export default function SettingsAdminPage() {
             </FormControl>
 
             <FormControl fullWidth size="small" sx={{ mb: 2.5 }}>
-              <InputLabel id="newest-arr-label">Newest Arrangement</InputLabel>
+              <InputLabel id="featured-arr-label">
+                Featured Arrangement
+              </InputLabel>
               <Select
-                labelId="newest-arr-label"
-                label="Newest Arrangement"
-                value={settings["newest_arrangement_id"] ?? ""}
+                labelId="featured-arr-label"
+                label="Featured Arrangement"
+                value={settings["featured_arrangement_id"] ?? ""}
                 onChange={(e) =>
                   setSettings((s) => ({
                     ...s,
-                    newest_arrangement_id: e.target.value,
+                    featured_arrangement_id: e.target.value,
                   }))
                 }
               >
