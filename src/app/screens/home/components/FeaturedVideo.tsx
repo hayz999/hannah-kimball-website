@@ -52,7 +52,7 @@ export default function FeaturedVideo({
           sx={{
             borderRadius: 2,
             overflow: "hidden",
-            boxShadow: "0 8px 40px rgba(42,123,196,0.2)",
+            boxShadow: "0 8px 40px rgba(0,194,199,0.25)",
           }}
         >
           <iframe

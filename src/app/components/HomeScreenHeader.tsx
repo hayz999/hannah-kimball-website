@@ -91,8 +91,6 @@ export default function HomeScreenHeader() {
         sx={{
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(160deg, rgba(0,50,100,0.75) 0%, rgba(42,123,196,0.55) 50%, rgba(0,20,50,0.85) 100%)",
         }}
       />
 
@@ -151,11 +149,17 @@ export default function HomeScreenHeader() {
           <Button
             component={Link}
             href="/compositions"
-            variant="contained"
-            color="secondary"
+            variant="outlined"
             size="large"
             aria-label="View compositions"
-            sx={{ px: 3 }}
+            sx={{
+              color: "white",
+              borderColor: "rgba(255,255,255,0.6)",
+              "&:hover": {
+                borderColor: "white",
+                backgroundColor: "rgba(255,255,255,0.08)",
+              },
+            }}
           >
             Compositions
           </Button>

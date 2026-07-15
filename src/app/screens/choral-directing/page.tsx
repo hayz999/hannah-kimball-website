@@ -90,7 +90,7 @@ export default async function ChoralDirectingPage() {
                       backgroundColor:
                         gig.endDate === "present"
                           ? "secondary.light"
-                          : "#C5DEF9",
+                          : "#B8F0F1",
                       color:
                         gig.endDate === "present" ? "white" : "primary.dark",
                       fontWeight: 600,
@@ -116,7 +116,7 @@ export default async function ChoralDirectingPage() {
                     sx={{
                       borderRadius: 2,
                       overflow: "hidden",
-                      boxShadow: "0 4px 20px rgba(42,123,196,0.18)",
+                      boxShadow: "0 4px 20px rgba(0,194,199,0.22)",
                     }}
                     role="region"
                     aria-label={`Video: ${gig.choirName}`}

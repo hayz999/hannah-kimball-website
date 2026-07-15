@@ -9,15 +9,15 @@ export default function SocialMedia({ settings }: { settings: SiteSettings }) {
     <Box
       component="section"
       aria-labelledby="social-heading"
-      className="section-pattern"
-      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "#EDF4FD" }}
+      // className="section-pattern"
+      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "#5B2D8E" }}
     >
       <Container maxWidth="lg" sx={{ textAlign: "center" }}>
         <Typography
           id="social-heading"
           variant="h3"
           component="h2"
-          sx={{ fontWeight: 700, mb: 1, color: "primary.dark" }}
+          sx={{ fontWeight: 700, mb: 1, color: "background.default" }}
           className="animate-fade-in-up"
         >
           Connect
@@ -31,14 +31,6 @@ export default function SocialMedia({ settings }: { settings: SiteSettings }) {
             mx: "auto",
           }}
         />
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ mb: 5 }}
-          className="animate-fade-in-up stagger-1"
-        >
-          Follow Hannah&apos;s musical journey across social media.
-        </Typography>
 
         <Box
           sx={{

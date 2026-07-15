@@ -45,7 +45,7 @@ export default function UpcomingEvents({
       component="section"
       aria-labelledby="events-heading"
       className="section-pattern"
-      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "#FAFAFA" }}
+      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "#FFFDF7" }}
     >
       <Container maxWidth="lg">
         <Typography
