@@ -10,7 +10,7 @@ interface SongCardProps {
   title: string;
   description: string | null;
   voiceParts: string[];
-  pdfUrl: string | null;
+  pdfPath: string | null;
   href: string;
   ariaLabel: string;
   index: number;
@@ -21,7 +21,7 @@ export default function SongCard({
   title,
   description,
   voiceParts,
-  pdfUrl,
+  pdfPath,
   href,
   ariaLabel,
   index,
@@ -54,30 +54,13 @@ export default function SongCard({
               border: "1.5px solid #F5B700",
             }}
           >
-            {pdfUrl ? (
-              <Box
-                component="iframe"
-                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=1`}
-                title={`Preview of ${title}`}
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  borderRadius: 1,
-                  pointerEvents: "none",
-                }}
-                tabIndex={-1}
-                aria-hidden="true"
-              />
-            ) : (
-              <MusicNoteIcon
-                sx={{
-                  fontSize: { xs: 36, sm: 48 },
-                  color: "#00888C",
-                  opacity: 0.5,
-                }}
-              />
-            )}
+            <MusicNoteIcon
+              sx={{
+                fontSize: { xs: 36, sm: 48 },
+                color: "#00888C",
+                opacity: 0.5,
+              }}
+            />
           </Box>
 
           <Box sx={{ flexGrow: 1, minWidth: 0 }}>

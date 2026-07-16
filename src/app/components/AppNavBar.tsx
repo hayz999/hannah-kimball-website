@@ -29,6 +29,11 @@ const pages: NavPage[] = [
     ariaLabel: "Go to choral directing page",
   },
   {
+    label: "Vocalist",
+    href: "/vocalist",
+    ariaLabel: "Go to vocalist page",
+  },
+  {
     label: "Compositions",
     href: "/compositions",
     ariaLabel: "Go to compositions page",

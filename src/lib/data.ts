@@ -7,9 +7,9 @@ export type Composition = {
   description: string | null;
   lyrics: string | null;
   voiceParts: string[];
-  pdfUrl: string | null;
-  pdfUrl2: string | null;
-  pdfUrl3: string | null;
+  pdfPath: string | null;
+  pdfPath2: string | null;
+  pdfPath3: string | null;
   videoUrl: string | null;
   audioUrl: string | null;
 };
@@ -28,6 +28,14 @@ export type Event = {
   eventDetailsUrl: string | null;
 };
 
+export type VocalistAppearance = {
+  id: string;
+  title: string;
+  description: string | null;
+  date: string;
+  ticketUrl: string | null;
+};
+
 export type Gig = {
   id: string;
   choirName: string;
@@ -42,6 +50,9 @@ export type SiteSettings = {
   aboutBody: string;
   aboutLocation: string;
   aboutSpecialties: string;
+  aboutEducation: string;
+  vocalistDescription: string;
+  vocalistVideoUrl: string;
   featuredVideoUrl: string;
   featuredVideoTitle: string;
   featuredVideoDescription: string;
@@ -76,9 +87,9 @@ function mapSongRow(row: Row): Composition {
     description: row.description as string | null,
     lyrics: row.lyrics as string | null,
     voiceParts: parseVoiceParts(row.voice_parts as string | null),
-    pdfUrl: row.pdf_url as string | null,
-    pdfUrl2: row.pdf_url_2 as string | null,
-    pdfUrl3: row.pdf_url_3 as string | null,
+    pdfPath: row.pdf_path as string | null,
+    pdfPath2: row.pdf_path_2 as string | null,
+    pdfPath3: row.pdf_path_3 as string | null,
     videoUrl: row.video_url as string | null,
     audioUrl: row.audio_url as string | null,
   };
@@ -137,6 +148,20 @@ export async function getUpcomingEvents(): Promise<Event[]> {
   }));
 }
 
+export async function getVocalistAppearances(): Promise<VocalistAppearance[]> {
+  const result = await db.execute(
+    "SELECT * FROM vocalist_appearances ORDER BY date ASC",
+  );
+
+  return result.rows.map((row) => ({
+    id: row.id as string,
+    title: row.title as string,
+    description: row.description as string | null,
+    date: row.date as string,
+    ticketUrl: row.ticket_url as string | null,
+  }));
+}
+
 export async function getGigs(): Promise<Gig[]> {
   const result = await db.execute(
     "SELECT * FROM gigs ORDER BY start_date DESC",
@@ -166,6 +191,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     aboutBody: map["about_body"] ?? "",
     aboutLocation: map["about_location"] ?? "",
     aboutSpecialties: map["about_specialties"] ?? "",
+    aboutEducation: map["about_education"] ?? "",
+    vocalistDescription: map["vocalist_description"] ?? "",
+    vocalistVideoUrl: map["vocalist_video_url"] ?? "",
     featuredVideoUrl: map["featured_video_url"] ?? "",
     featuredVideoTitle: map["featured_video_title"] ?? "",
     featuredVideoDescription: map["featured_video_description"] ?? "",

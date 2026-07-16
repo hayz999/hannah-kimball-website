@@ -11,14 +11,19 @@ export default function FeaturedVideo({
       component="section"
       aria-labelledby="video-heading"
       className="section-pattern"
-      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "#FFFFFF" }}
+      sx={{ py: { xs: 7, md: 10 }, backgroundColor: "background.default" }}
     >
       <Container maxWidth="lg">
         <Typography
           id="video-heading"
           variant="h3"
           component="h2"
-          sx={{ fontWeight: 700, mb: 1, color: "primary.dark" }}
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+            color: "primary.dark",
+            backgroundColor: "background.default",
+          }}
           className="animate-fade-in-up"
         >
           Featured Video
@@ -34,7 +39,12 @@ export default function FeaturedVideo({
         <Typography
           variant="h6"
           component="p"
-          sx={{ color: "text.primary", fontWeight: 700, mb: 0.5 }}
+          sx={{
+            color: "text.primary",
+            fontWeight: 700,
+            mb: 0.5,
+            backgroundColor: "background.default",
+          }}
           className="animate-fade-in-up stagger-1"
         >
           {settings.featuredVideoTitle}
@@ -42,7 +52,7 @@ export default function FeaturedVideo({
         <Typography
           variant="body1"
           color="text.secondary"
-          sx={{ mb: 3 }}
+          sx={{ mb: 3, backgroundColor: "background.default" }}
           className="animate-fade-in-up stagger-2"
         >
           {settings.featuredVideoDescription}

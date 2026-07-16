@@ -31,7 +31,7 @@ export default async function CompositionsPage() {
               title={song.title}
               description={song.description}
               voiceParts={song.voiceParts}
-              pdfUrl={song.pdfUrl}
+              pdfPath={song.pdfPath}
               href={`/compositions/${song.id}`}
               ariaLabel={`View composition: ${song.title}`}
               index={i}
@@ -40,7 +40,12 @@ export default async function CompositionsPage() {
         </Box>
 
         <Divider sx={{ my: 6 }} />
-        <Box sx={{ textAlign: "center" }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            backgroundColor: "background.default",
+          }}
+        >
           <Typography variant="body1" color="text.secondary">
             Interested in performing one of these works?{" "}
             <Link href="/contact" style={{ color: "#00888C", fontWeight: 600 }}>

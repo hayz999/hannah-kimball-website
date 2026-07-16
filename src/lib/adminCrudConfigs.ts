@@ -8,9 +8,9 @@ export const compositionsConfig: CrudConfig = {
     { column: 'description', field: 'description', default: null },
     { column: 'lyrics', field: 'lyrics', default: null },
     { column: 'voice_parts', field: 'voice_parts', default: null, json: true },
-    { column: 'pdf_url', field: 'pdf_url', default: null, file: true },
-    { column: 'pdf_url_2', field: 'pdf_url_2', default: null, file: true },
-    { column: 'pdf_url_3', field: 'pdf_url_3', default: null, file: true },
+    { column: 'pdf_path', field: 'pdf_path', default: null, file: true },
+    { column: 'pdf_path_2', field: 'pdf_path_2', default: null, file: true },
+    { column: 'pdf_path_3', field: 'pdf_path_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
     { column: 'audio_url', field: 'audio_url', default: null, file: true },
   ],
@@ -25,9 +25,9 @@ export const arrangementsConfig: CrudConfig = {
     { column: 'description', field: 'description', default: null },
     { column: 'lyrics', field: 'lyrics', default: null },
     { column: 'voice_parts', field: 'voice_parts', default: null, json: true },
-    { column: 'pdf_url', field: 'pdf_url', default: null, file: true },
-    { column: 'pdf_url_2', field: 'pdf_url_2', default: null, file: true },
-    { column: 'pdf_url_3', field: 'pdf_url_3', default: null, file: true },
+    { column: 'pdf_path', field: 'pdf_path', default: null, file: true },
+    { column: 'pdf_path_2', field: 'pdf_path_2', default: null, file: true },
+    { column: 'pdf_path_3', field: 'pdf_path_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
     { column: 'audio_url', field: 'audio_url', default: null, file: true },
   ],
@@ -43,6 +43,17 @@ export const eventsConfig: CrudConfig = {
     { column: 'end_date', field: 'end_date', default: '' },
     { column: 'location', field: 'location', default: null },
     { column: 'event_details_url', field: 'event_details_url', default: null },
+  ],
+};
+
+export const vocalistAppearancesConfig: CrudConfig = {
+  table: 'vocalist_appearances',
+  orderBy: 'date ASC',
+  columns: [
+    { column: 'title', field: 'title', default: '' },
+    { column: 'description', field: 'description', default: null },
+    { column: 'date', field: 'date', default: '' },
+    { column: 'ticket_url', field: 'ticket_url', default: null },
   ],
 };
 

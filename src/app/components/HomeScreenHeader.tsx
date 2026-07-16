@@ -139,7 +139,8 @@ export default function HomeScreenHeader() {
           }}
           className="animate-fade-in-up stagger-2"
         >
-          Composer &nbsp;·&nbsp; Choral Director &nbsp;·&nbsp; Educator
+          Composer &nbsp;·&nbsp; Choral Director &nbsp;·&nbsp; Singer
+          &nbsp;·&nbsp; Educator
         </Typography>
 
         <Box

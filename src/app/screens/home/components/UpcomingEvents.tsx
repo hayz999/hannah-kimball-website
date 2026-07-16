@@ -29,8 +29,9 @@ function formatEventDate(start: string, end: string): string {
   const sameMY =
     s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
 
-  if (sameMY)
-    {return `${s.toLocaleDateString("en-US", { month: "long", day: "numeric" })}–${e.getDate()}, ${e.getFullYear()}`;}
+  if (sameMY) {
+    return `${s.toLocaleDateString("en-US", { month: "long", day: "numeric" })}–${e.getDate()}, ${e.getFullYear()}`;
+  }
 
   return `${s.toLocaleDateString("en-US", opts)} – ${e.toLocaleDateString("en-US", opts)}`;
 }
@@ -52,7 +53,12 @@ export default function UpcomingEvents({
           id="events-heading"
           variant="h3"
           component="h2"
-          sx={{ fontWeight: 700, mb: 1, color: "primary.dark" }}
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+            color: "primary.dark",
+            backgroundColor: "background.default",
+          }}
           className="animate-fade-in-up"
         >
           Upcoming Events

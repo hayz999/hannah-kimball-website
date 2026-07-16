@@ -84,6 +84,16 @@ export default async function AboutPage() {
               <Typography variant="body2" color="text.secondary">
                 {settings.aboutSpecialties}
               </Typography>
+              <Divider sx={{ my: 1.5 }} />
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 700, color: "primary.dark", mb: 0.5 }}
+              >
+                Education
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {settings.aboutEducation}
+              </Typography>
             </Box>
           </Box>
 
@@ -91,7 +101,11 @@ export default async function AboutPage() {
             <Typography
               variant="h3"
               component="h2"
-              sx={{ fontWeight: 700, color: "primary.dark", mb: 1.5 }}
+              sx={{
+                fontWeight: 700,
+                color: "primary.dark",
+                backgroundColor: "background.default",
+              }}
             >
               {settings.aboutHeading}
             </Typography>

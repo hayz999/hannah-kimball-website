@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 const navItems = [
   { label: "Compositions", href: "/admin/compositions" },
   { label: "Arrangements", href: "/admin/arrangements" },
+  { label: "Vocalist", href: "/admin/vocalist-appearances" },
   { label: "Events", href: "/admin/events" },
   { label: "Experience", href: "/admin/gigs" },
   { label: "Settings", href: "/admin/settings" },

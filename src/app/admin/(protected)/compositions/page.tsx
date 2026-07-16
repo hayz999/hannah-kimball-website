@@ -27,9 +27,9 @@ type Row = {
   description: string | null;
   lyrics: string | null;
   voice_parts: string | null;
-  pdf_url: string | null;
-  pdf_url_2: string | null;
-  pdf_url_3: string | null;
+  pdf_path: string | null;
+  pdf_path_2: string | null;
+  pdf_path_3: string | null;
   video_url: string | null;
   audio_url: string | null;
 };
@@ -40,13 +40,13 @@ type Form = {
   lyrics: string;
   voice_parts: string;
   video_url: string;
-  pdf_url: string;
+  pdf_path: string;
   pdf_file: File | null;
   pdf_clear: boolean;
-  pdf_url_2: string;
+  pdf_path_2: string;
   pdf_file_2: File | null;
   pdf_clear_2: boolean;
-  pdf_url_3: string;
+  pdf_path_3: string;
   pdf_file_3: File | null;
   pdf_clear_3: boolean;
   audio_url: string;
@@ -60,13 +60,13 @@ const empty: Form = {
   lyrics: "",
   voice_parts: "",
   video_url: "",
-  pdf_url: "",
+  pdf_path: "",
   pdf_file: null,
   pdf_clear: false,
-  pdf_url_2: "",
+  pdf_path_2: "",
   pdf_file_2: null,
   pdf_clear_2: false,
-  pdf_url_3: "",
+  pdf_path_3: "",
   pdf_file_3: null,
   pdf_clear_3: false,
   audio_url: "",
@@ -89,13 +89,13 @@ function toForm(row: Row): Form {
     lyrics: row.lyrics ?? "",
     voice_parts: vp.join(", "),
     video_url: row.video_url ?? "",
-    pdf_url: row.pdf_url ?? "",
+    pdf_path: row.pdf_path ?? "",
     pdf_file: null,
     pdf_clear: false,
-    pdf_url_2: row.pdf_url_2 ?? "",
+    pdf_path_2: row.pdf_path_2 ?? "",
     pdf_file_2: null,
     pdf_clear_2: false,
-    pdf_url_3: row.pdf_url_3 ?? "",
+    pdf_path_3: row.pdf_path_3 ?? "",
     pdf_file_3: null,
     pdf_clear_3: false,
     audio_url: row.audio_url ?? "",
@@ -137,9 +137,9 @@ function toBody(f: Form): FormData {
     ),
   );
   fd.set("video_url", f.video_url);
-  appendFileField(fd, "pdf_url", f.pdf_url, f.pdf_file, f.pdf_clear);
-  appendFileField(fd, "pdf_url_2", f.pdf_url_2, f.pdf_file_2, f.pdf_clear_2);
-  appendFileField(fd, "pdf_url_3", f.pdf_url_3, f.pdf_file_3, f.pdf_clear_3);
+  appendFileField(fd, "pdf_path", f.pdf_path, f.pdf_file, f.pdf_clear);
+  appendFileField(fd, "pdf_path_2", f.pdf_path_2, f.pdf_file_2, f.pdf_clear_2);
+  appendFileField(fd, "pdf_path_3", f.pdf_path_3, f.pdf_file_3, f.pdf_clear_3);
   appendFileField(fd, "audio_url", f.audio_url, f.audio_file, f.audio_clear);
   return fd;
 }
@@ -223,7 +223,7 @@ export default function CompositionsAdminPage() {
       <FileUploadField
         label="PDF (score)"
         accept="application/pdf"
-        existingUrl={form.pdf_url}
+        existingUrl={form.pdf_path}
         file={form.pdf_file}
         clear={form.pdf_clear}
         onFileChange={(file) => setForm((f) => ({ ...f, pdf_file: file }))}
@@ -232,7 +232,7 @@ export default function CompositionsAdminPage() {
       <FileUploadField
         label="PDF (additional #2, optional)"
         accept="application/pdf"
-        existingUrl={form.pdf_url_2}
+        existingUrl={form.pdf_path_2}
         file={form.pdf_file_2}
         clear={form.pdf_clear_2}
         onFileChange={(file) => setForm((f) => ({ ...f, pdf_file_2: file }))}
@@ -241,7 +241,7 @@ export default function CompositionsAdminPage() {
       <FileUploadField
         label="PDF (additional #3, optional)"
         accept="application/pdf"
-        existingUrl={form.pdf_url_3}
+        existingUrl={form.pdf_path_3}
         file={form.pdf_file_3}
         clear={form.pdf_clear_3}
         onFileChange={(file) => setForm((f) => ({ ...f, pdf_file_3: file }))}

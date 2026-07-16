@@ -43,7 +43,12 @@ export default async function ChoralDirectingPage() {
         <Typography
           variant="h3"
           component="h2"
-          sx={{ fontWeight: 700, mb: 1, color: "primary.dark" }}
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+            color: "primary.dark",
+            backgroundColor: "background.default",
+          }}
           className="animate-fade-in-up"
         >
           Conducting History

@@ -22,6 +22,9 @@ const TEXT_FIELDS: { key: string; label: string; multiline?: boolean }[] = [
   { key: "about_body", label: "About Page Body", multiline: true },
   { key: "about_location", label: "Location" },
   { key: "about_specialties", label: "Specialties" },
+  { key: "about_education", label: "Education" },
+  { key: "vocalist_description", label: "Vocalist Page Description", multiline: true },
+  { key: "vocalist_video_url", label: "Vocalist Video URL (embed, optional)" },
   { key: "featured_video_url", label: "Featured Video URL (embed)" },
   { key: "featured_video_title", label: "Featured Video Title" },
   {
@@ -134,7 +137,33 @@ export default function SettingsAdminPage() {
             >
               About Page
             </Typography>
-            {TEXT_FIELDS.slice(0, 4).map((f) => (
+            {TEXT_FIELDS.slice(0, 5).map((f) => (
+              <TextField
+                key={f.key}
+                label={f.label}
+                value={settings[f.key] ?? ""}
+                onChange={setField(f.key)}
+                fullWidth
+                multiline={f.multiline}
+                rows={f.multiline ? 6 : undefined}
+                size="small"
+                sx={{ mb: 2.5 }}
+              />
+            ))}
+
+            <Divider sx={{ my: 3 }} />
+            <Typography
+              variant="overline"
+              sx={{
+                color: "secondary.dark",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                mb: 2,
+              }}
+            >
+              Vocalist Page
+            </Typography>
+            {TEXT_FIELDS.slice(5, 7).map((f) => (
               <TextField
                 key={f.key}
                 label={f.label}
@@ -160,7 +189,7 @@ export default function SettingsAdminPage() {
             >
               Featured Video
             </Typography>
-            {TEXT_FIELDS.slice(4, 7).map((f) => (
+            {TEXT_FIELDS.slice(7, 10).map((f) => (
               <TextField
                 key={f.key}
                 label={f.label}
@@ -251,7 +280,7 @@ export default function SettingsAdminPage() {
             >
               Contact / Social
             </Typography>
-            {TEXT_FIELDS.slice(7).map((f) => (
+            {TEXT_FIELDS.slice(10).map((f) => (
               <TextField
                 key={f.key}
                 label={f.label}

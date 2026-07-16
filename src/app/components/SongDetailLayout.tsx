@@ -1,12 +1,12 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import MusicNoteIcon from '@mui/icons-material/MusicNote';
-import ContactModal from '@/app/components/ContactModal';
-import NavButton from '@/app/components/NavButton';
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ContactModal from "@/app/components/ContactModal";
+import NavButton from "@/app/components/NavButton";
+import ScorePreview from "@/app/components/ScorePreview";
 
 interface SongDetailLayoutProps {
   song: {
@@ -16,7 +16,9 @@ interface SongDetailLayoutProps {
     lyrics: string | null;
     videoUrl: string | null;
     audioUrl: string | null;
-    pdfUrl: string | null;
+    pdfPath: string | null;
+    pdfPath2: string | null;
+    pdfPath3: string | null;
     originalComposer?: string | null;
   };
   backHref: string;
@@ -34,14 +36,24 @@ export default function SongDetailLayout({
   sidebarTitle,
   contactEmail,
 }: SongDetailLayoutProps) {
+  const pdfPaths = [song.pdfPath, song.pdfPath2, song.pdfPath3].filter(
+    (url): url is string => Boolean(url),
+  );
+
   return (
     <Box>
-      <Box sx={{ background: 'linear-gradient(135deg, #FF3E8E 0%, #5B2D8E 100%)', py: { xs: 5, md: 7 }, px: 3 }}>
+      <Box
+        sx={{
+          background: "linear-gradient(135deg, #FF3E8E 0%, #5B2D8E 100%)",
+          py: { xs: 5, md: 7 },
+          px: 3,
+        }}
+      >
         <Container maxWidth="lg">
           <NavButton
             href={backHref}
             startIcon={<ArrowBackIcon />}
-            sx={{ color: '#FFFFFF', mb: 2, '&:hover': { color: 'white' } }}
+            sx={{ color: "#FFFFFF", mb: 2, "&:hover": { color: "white" } }}
             aria-label={`Back to ${backLabel.toLowerCase()} list`}
           >
             {backLabel}
@@ -49,23 +61,40 @@ export default function SongDetailLayout({
           <Typography
             variant="h2"
             component="h1"
-            sx={{ color: '#FFFFFF', fontWeight: 700, mb: song.originalComposer ? 1 : 2, fontSize: { xs: '2rem', md: '3rem' } }}
+            sx={{
+              color: "#FFFFFF",
+              fontWeight: 700,
+              mb: song.originalComposer ? 1 : 2,
+              fontSize: { xs: "2rem", md: "3rem" },
+            }}
             className="animate-fade-in-up"
           >
             {song.title}
           </Typography>
           {song.originalComposer && (
-            <Typography variant="h6" sx={{ color: '#FFFFFF', mb: 2, fontStyle: 'italic' }}>
+            <Typography
+              variant="h6"
+              sx={{ color: "#FFFFFF", mb: 2, fontStyle: "italic" }}
+            >
               Original by {song.originalComposer} · Arranged by Hannah Kimball
             </Typography>
           )}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }} role="list" aria-label="Voice parts">
+          <Box
+            sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}
+            role="list"
+            aria-label="Voice parts"
+          >
             {song.voiceParts.map((part) => (
               <Chip
                 key={part}
                 label={part}
                 role="listitem"
-                sx={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', fontWeight: 700, border: '1px solid rgba(255,255,255,0.45)' }}
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  color: "#FFFFFF",
+                  fontWeight: 700,
+                  border: "1px solid rgba(255,255,255,0.45)",
+                }}
               />
             ))}
           </Box>
@@ -73,27 +102,45 @@ export default function SongDetailLayout({
       </Box>
 
       <Container maxWidth="lg" sx={{ py: { xs: 5, md: 8 } }}>
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 380px' }, gap: { xs: 5, md: 6 }, alignItems: 'flex-start' }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "1fr 380px" },
+            gap: { xs: 5, md: 6 },
+            alignItems: "flex-start",
+          }}
+        >
           <Box>
             <Box className="animate-fade-in-up" sx={{ mb: 5 }}>
-              <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+              >
                 {aboutTitle}
               </Typography>
-              <Typography variant="body1" sx={{ lineHeight: 1.85, fontSize: '1.05rem' }}>
+              <Typography
+                variant="body1"
+                sx={{ lineHeight: 1.85, fontSize: "1.05rem" }}
+              >
                 {song.description}
               </Typography>
             </Box>
 
             <Box className="animate-fade-in-up stagger-1" sx={{ mb: 5 }}>
-              <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+              >
                 Lyrics
               </Typography>
               <Box
                 sx={{
-                  backgroundColor: '#FFF3D6',
-                  borderLeft: '4px solid',
-                  borderColor: 'secondary.main',
-                  borderRadius: '0 8px 8px 0',
+                  backgroundColor: "#FFF3D6",
+                  borderLeft: "4px solid",
+                  borderColor: "secondary.main",
+                  borderRadius: "0 8px 8px 0",
                   p: { xs: 2.5, md: 3.5 },
                 }}
               >
@@ -101,12 +148,12 @@ export default function SongDetailLayout({
                   component="pre"
                   sx={{
                     fontFamily: '"Roboto", sans-serif',
-                    fontSize: '1rem',
+                    fontSize: "1rem",
                     lineHeight: 1.9,
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word',
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
                     m: 0,
-                    color: 'text.primary',
+                    color: "text.primary",
                   }}
                 >
                   {song.lyrics}
@@ -114,14 +161,54 @@ export default function SongDetailLayout({
               </Box>
             </Box>
 
+            {pdfPaths.length > 0 && (
+              <Box className="animate-fade-in-up stagger-4" sx={{ mb: 5 }}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+                >
+                  Score Preview
+                </Typography>
+                <ScorePreview title={song.title} pdfPaths={pdfPaths} />
+              </Box>
+            )}
+
+            {song.audioUrl && (
+              <Box className="animate-fade-in-up stagger-3" sx={{ mb: 5 }}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+                >
+                  Audio Preview
+                </Typography>
+                <Box
+                  component="audio"
+                  controls
+                  src={song.audioUrl}
+                  sx={{ width: "100%", borderRadius: 1 }}
+                  aria-label={`Audio preview of ${song.title}`}
+                />
+              </Box>
+            )}
+
             {song.videoUrl && (
               <Box className="animate-fade-in-up stagger-2" sx={{ mb: 5 }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+                >
                   Video
                 </Typography>
                 <Box
                   className="responsive-iframe-wrapper"
-                  sx={{ borderRadius: 2, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,194,199,0.25)' }}
+                  sx={{
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    boxShadow: "0 4px 24px rgba(0,194,199,0.25)",
+                  }}
                   role="region"
                   aria-label={`Video: ${song.title}`}
                 >
@@ -134,46 +221,6 @@ export default function SongDetailLayout({
                 </Box>
               </Box>
             )}
-
-            {song.audioUrl && (
-              <Box className="animate-fade-in-up stagger-3" sx={{ mb: 5 }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
-                  Audio Preview
-                </Typography>
-                <Box
-                  component="audio"
-                  controls
-                  src={song.audioUrl}
-                  sx={{ width: '100%', borderRadius: 1 }}
-                  aria-label={`Audio preview of ${song.title}`}
-                />
-              </Box>
-            )}
-
-            {song.pdfUrl && (
-              <Box className="animate-fade-in-up stagger-4" sx={{ mb: 5 }}>
-                <Typography variant="h5" component="h2" sx={{ fontWeight: 700, color: 'primary.dark', mb: 2 }}>
-                  Score Preview
-                </Typography>
-                <Box
-                  sx={{
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    boxShadow: '0 4px 24px rgba(0,194,199,0.2)',
-                    height: { xs: 400, md: 600 },
-                  }}
-                  role="region"
-                  aria-label={`Score preview for ${song.title}`}
-                >
-                  <Box
-                    component="iframe"
-                    src={song.pdfUrl}
-                    title={`${song.title} score`}
-                    sx={{ width: '100%', height: '100%', border: 'none' }}
-                  />
-                </Box>
-              </Box>
-            )}
           </Box>
 
           <Box className="animate-fade-in-up stagger-2">
@@ -181,50 +228,35 @@ export default function SongDetailLayout({
               sx={{
                 p: 3,
                 borderRadius: 3,
-                border: '1px solid',
-                borderColor: 'divider',
-                backgroundColor: '#FFFDF7',
-                position: { md: 'sticky' },
+                border: "1px solid",
+                borderColor: "divider",
+                backgroundColor: "#FFFDF7",
+                position: { md: "sticky" },
                 top: { md: 88 },
               }}
             >
-              <Box
-                sx={{
-                  width: '100%',
-                  aspectRatio: '8.5/11',
-                  backgroundColor: '#FFF3D6',
-                  borderRadius: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 1,
-                  mb: 3,
-                  border: '1.5px solid #F5B700',
-                }}
-                aria-hidden="true"
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 700, color: "primary.dark", mb: 1.5 }}
               >
-                <MusicNoteIcon sx={{ fontSize: 64, color: '#00888C', opacity: 0.35 }} />
-                <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center', px: 2 }}>
-                  {song.pdfUrl ? 'Score available' : 'Score available upon purchase'}
-                </Typography>
-              </Box>
-
-              <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.dark', mb: 1.5 }}>
                 {sidebarTitle}
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Contact Hannah to discuss licensing, performance materials, and pricing for your ensemble.
+                Contact Hannah to discuss licensing, performance materials, and
+                pricing for your ensemble.
               </Typography>
               <Divider sx={{ mb: 2 }} />
 
-              <ContactModal songTitle={song.title} contactEmail={contactEmail} />
+              <ContactModal
+                songTitle={song.title}
+                contactEmail={contactEmail}
+              />
 
               <NavButton
                 href="/contact"
                 variant="text"
                 fullWidth
-                sx={{ mt: 1, color: 'text.secondary' }}
+                sx={{ mt: 1, color: "text.secondary" }}
                 aria-label="Go to general contact page"
               >
                 General Enquiry
