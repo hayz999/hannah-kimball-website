@@ -1,27 +1,27 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import AppNavBar from '@/app/components/AppNavBar';
-import ThemeRegistry from '@/app/ThemeRegistry';
-import './globals.css';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import AppNavBar from "@/app/components/AppNavBar";
+import ThemeRegistry from "@/app/ThemeRegistry";
+import "./globals.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'Hannah Kimball | Composer & Choral Director',
+  title: "Hannah Kimball | Composer, Musician & Choral Director",
   description:
-    'Official website of Hannah Kimball — award-winning composer, choral conductor, and music educator based in Colorado.',
+    "Official website of Hannah Kimball —  composer, choral conductor, musician, and music educator based in Colorado.",
 };
 
 export default function RootLayout({

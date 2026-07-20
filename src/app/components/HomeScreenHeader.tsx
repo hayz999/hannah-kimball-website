@@ -67,8 +67,7 @@ export default function HomeScreenHeader() {
           position: "absolute",
           left: 0,
           right: 0,
-          // xs: 10% buffer above/below for 0.10 parallax factor;
-          top: { xs: "-10%" },
+          top: { xs: "-5%" },
           height: { xs: "120%", md: "160%" },
           transform: `translateY(${parallaxOffset}px)`,
           willChange: "transform",
@@ -79,8 +78,9 @@ export default function HomeScreenHeader() {
           alt=""
           fill
           priority
-          // 63% horizontal centers on Hannah (she's ~62% from left in the source image)
-          style={{ objectFit: "cover", objectPosition: "63% center" }}
+          // 63% horizontal centers on Hannah (she's ~62% from left in the source image);
+          // 15% vertical keeps her head in frame (it sits in the top third of the photo)
+          style={{ objectFit: "cover", objectPosition: "63% 15%" }}
           sizes="100vw"
         />
       </Box>
@@ -91,6 +91,8 @@ export default function HomeScreenHeader() {
         sx={{
           position: "absolute",
           inset: 0,
+          background:
+            "linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.15) 100%)",
         }}
       />
 

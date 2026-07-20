@@ -11,6 +11,10 @@ interface PageHeroProps {
   alt: string;
   title: string;
   subtitle?: string;
+  // objectPosition for the hero image, e.g. "26% 15%" — tune per photo so the
+  // subject stays in frame; vertical defaults near the top since the subject's
+  // head sits in the top third of these source photos.
+  focalPoint?: string;
 }
 
 export default function PageHero({
@@ -18,17 +22,22 @@ export default function PageHero({
   alt,
   title,
   subtitle,
+  focalPoint = "center 18%",
 }: PageHeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [parallaxOffset, setParallaxOffset] = useState(0);
 
   useEffect(() => {
     let ticking = false;
+    // Smaller factor on mobile keeps the wrapper height closer to section height,
+    // which preserves more of the source image without cropping the subject.
+    const getFactor = () => (window.innerWidth < 900 ? 0.1 : 0.3);
+
     const update = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
       if (rect.bottom > 0 && rect.top < window.innerHeight) {
-        setParallaxOffset(-rect.top * 0.3);
+        setParallaxOffset(-rect.top * getFactor());
       }
     };
 
@@ -61,14 +70,17 @@ export default function PageHero({
       }}
       aria-label={`${title} hero section`}
     >
-      {/* Background image — oversized to allow parallax shift without blank edges */}
+      {/* Background image — oversized to allow parallax shift without blank edges.
+          Wrapper height matches the parallax factor below (buffer = 2x factor)
+          so the crop stays close to the section's own aspect ratio on every
+          screen size instead of over-cropping on narrow viewports. */}
       <Box
         sx={{
           position: "absolute",
           left: 0,
           right: 0,
-          top: "2%",
-          height: "200%",
+          top: "-5%",
+          height: { xs: "120%", md: "160%" },
           transform: `translateY(${parallaxOffset}px)`,
           willChange: "transform",
         }}
@@ -78,7 +90,7 @@ export default function PageHero({
           alt={alt}
           fill
           priority
-          style={{ objectFit: "cover", objectPosition: "center center" }}
+          style={{ objectFit: "cover", objectPosition: focalPoint }}
           sizes="100vw"
         />
       </Box>
@@ -88,6 +100,8 @@ export default function PageHero({
         sx={{
           position: "absolute",
           inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(20,0,30,0.25) 0%, rgba(20,0,30,0.35) 40%, rgba(10,0,20,0.75) 100%)",
         }}
       />
 

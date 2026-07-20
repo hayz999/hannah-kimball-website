@@ -24,7 +24,8 @@ export default async function AboutPage() {
         image={choralConducting}
         alt="Hannah Kimball conducting a choir"
         title={settings.aboutHeading}
-        subtitle="Composer · Choral Director · Educator"
+        subtitle="Composer · Choral Director · Educator · Singer"
+        focalPoint="26% 15%"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 7, md: 10 } }}>

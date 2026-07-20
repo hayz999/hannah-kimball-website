@@ -37,6 +37,7 @@ export default async function ChoralDirectingPage() {
         alt="Hannah Kimball conducting a choir"
         title="Choral Directing"
         subtitle="Building community and connection through music"
+        focalPoint="26% 15%"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 7, md: 10 } }}>

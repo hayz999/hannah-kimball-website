@@ -1,5 +1,6 @@
 import type { SiteSettings } from "@/lib/data";
 import { Box, Container, Divider, Typography } from "@mui/material";
+import { toYouTubeEmbedUrl } from "@/lib/youtube";
 
 export default function FeaturedVideo({
   settings,
@@ -66,7 +67,7 @@ export default function FeaturedVideo({
           }}
         >
           <iframe
-            src={settings.featuredVideoUrl}
+            src={toYouTubeEmbedUrl(settings.featuredVideoUrl)}
             title={settings.featuredVideoTitle}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

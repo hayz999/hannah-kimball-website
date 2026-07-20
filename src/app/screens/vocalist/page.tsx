@@ -11,6 +11,7 @@ import PageHero from "@/app/components/PageHero";
 import NavButton from "@/app/components/NavButton";
 import vocalistHeroImg from "@/app/images/vocalist.jpg";
 import { getSiteSettings, getVocalistAppearances } from "@/lib/data";
+import { toYouTubeEmbedUrl } from "@/lib/youtube";
 
 export const revalidate = 60;
 
@@ -40,6 +41,7 @@ export default async function VocalistPage() {
         alt="Hannah Kimball performing as a vocalist"
         title="Vocalist"
         subtitle="Vocal Contracting & Performance Services"
+        focalPoint="68% 15%"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 7, md: 10 } }}>
@@ -77,7 +79,7 @@ export default async function VocalistPage() {
                 aria-label="Vocalist performance video"
               >
                 <iframe
-                  src={settings.vocalistVideoUrl}
+                  src={toYouTubeEmbedUrl(settings.vocalistVideoUrl)}
                   title="Hannah Kimball vocal performance"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
