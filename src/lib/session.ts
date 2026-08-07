@@ -5,8 +5,13 @@ export type AdminSession = {
   username: string;
 };
 
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  throw new Error('SESSION_SECRET environment variable must be set');
+}
+
 export const sessionOptions: SessionOptions = {
-  password: process.env.SESSION_SECRET ?? 'dev-secret-replace-in-production-32ch',
+  password: sessionSecret,
   cookieName: 'hannah_admin_session',
   cookieOptions: {
     httpOnly: true,

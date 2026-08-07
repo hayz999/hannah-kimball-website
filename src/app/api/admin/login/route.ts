@@ -13,11 +13,15 @@ function constantTimeEqual(a: string, b: string): boolean {
 }
 
 export async function POST(request: Request) {
+  const expectedUsername = process.env.ADMIN_USERNAME;
+  const expectedPassword = process.env.ADMIN_PASSWORD;
+
+  if (!expectedUsername || !expectedPassword) {
+    return Response.json({ error: 'Admin login is not configured' }, { status: 500 });
+  }
+
   const body = await request.json().catch(() => ({}));
   const { username = '', password = '' } = body as Record<string, string>;
-
-  const expectedUsername = process.env.ADMIN_USERNAME ?? '';
-  const expectedPassword = process.env.ADMIN_PASSWORD ?? '';
 
   const usernameOk = constantTimeEqual(username, expectedUsername);
   const passwordOk = constantTimeEqual(password, expectedPassword);
