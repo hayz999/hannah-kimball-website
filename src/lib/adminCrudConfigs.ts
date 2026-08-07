@@ -13,6 +13,8 @@ export const compositionsConfig: CrudConfig = {
     { column: 'pdf_path_3', field: 'pdf_path_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
     { column: 'audio_url', field: 'audio_url', default: null, file: true },
+    { column: 'price', field: 'price', default: null },
+    { column: 'purchase_url', field: 'purchase_url', default: null },
   ],
 };
 
@@ -30,6 +32,8 @@ export const arrangementsConfig: CrudConfig = {
     { column: 'pdf_path_3', field: 'pdf_path_3', default: null, file: true },
     { column: 'video_url', field: 'video_url', default: null },
     { column: 'audio_url', field: 'audio_url', default: null, file: true },
+    { column: 'price', field: 'price', default: null },
+    { column: 'purchase_url', field: 'purchase_url', default: null },
   ],
 };
 

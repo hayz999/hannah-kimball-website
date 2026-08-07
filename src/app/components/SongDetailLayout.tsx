@@ -3,10 +3,14 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ContactModal from "@/app/components/ContactModal";
 import NavButton from "@/app/components/NavButton";
 import ScorePreview from "@/app/components/ScorePreview";
+import VideoEmbed from "@/app/components/VideoEmbed";
+import { getPurchaseLink, hostnameOf } from "@/lib/video";
 
 interface SongDetailLayoutProps {
   song: {
@@ -19,6 +23,8 @@ interface SongDetailLayoutProps {
     pdfPath: string | null;
     pdfPath2: string | null;
     pdfPath3: string | null;
+    price: string | null;
+    purchaseUrl: string | null;
     originalComposer?: string | null;
   };
   backHref: string;
@@ -39,6 +45,10 @@ export default function SongDetailLayout({
   const pdfPaths = [song.pdfPath, song.pdfPath2, song.pdfPath3].filter(
     (url): url is string => Boolean(url),
   );
+  const videoPurchaseLink = getPurchaseLink(song.videoUrl);
+  const purchaseLink = song.purchaseUrl
+    ? { src: song.purchaseUrl, host: hostnameOf(song.purchaseUrl) }
+    : videoPurchaseLink;
 
   return (
     <Box>
@@ -127,39 +137,41 @@ export default function SongDetailLayout({
               </Typography>
             </Box>
 
-            <Box className="animate-fade-in-up stagger-1" sx={{ mb: 5 }}>
-              <Typography
-                variant="h5"
-                component="h2"
-                sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
-              >
-                Lyrics
-              </Typography>
-              <Box
-                sx={{
-                  backgroundColor: "#FFF3D6",
-                  borderLeft: "4px solid",
-                  borderColor: "secondary.main",
-                  borderRadius: "0 8px 8px 0",
-                  p: { xs: 2.5, md: 3.5 },
-                }}
-              >
+            {song.lyrics && (
+              <Box className="animate-fade-in-up stagger-1" sx={{ mb: 5 }}>
                 <Typography
-                  component="pre"
+                  variant="h5"
+                  component="h2"
+                  sx={{ fontWeight: 700, color: "primary.dark", mb: 2 }}
+                >
+                  Lyrics
+                </Typography>
+                <Box
                   sx={{
-                    fontFamily: '"Roboto", sans-serif',
-                    fontSize: "1rem",
-                    lineHeight: 1.9,
-                    whiteSpace: "pre-wrap",
-                    wordBreak: "break-word",
-                    m: 0,
-                    color: "text.primary",
+                    backgroundColor: "#FFF3D6",
+                    borderLeft: "4px solid",
+                    borderColor: "secondary.main",
+                    borderRadius: "0 8px 8px 0",
+                    p: { xs: 2.5, md: 3.5 },
                   }}
                 >
-                  {song.lyrics}
-                </Typography>
+                  <Typography
+                    component="pre"
+                    sx={{
+                      fontFamily: '"Roboto", sans-serif',
+                      fontSize: "1rem",
+                      lineHeight: 1.9,
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-word",
+                      m: 0,
+                      color: "text.primary",
+                    }}
+                  >
+                    {song.lyrics}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
+            )}
 
             {pdfPaths.length > 0 && (
               <Box className="animate-fade-in-up stagger-4" sx={{ mb: 5 }}>
@@ -193,7 +205,7 @@ export default function SongDetailLayout({
               </Box>
             )}
 
-            {song.videoUrl && (
+            {song.videoUrl && !videoPurchaseLink && (
               <Box className="animate-fade-in-up stagger-2" sx={{ mb: 5 }}>
                 <Typography
                   variant="h5"
@@ -202,23 +214,11 @@ export default function SongDetailLayout({
                 >
                   Video
                 </Typography>
-                <Box
-                  className="responsive-iframe-wrapper"
-                  sx={{
-                    borderRadius: 2,
-                    overflow: "hidden",
-                    boxShadow: "0 4px 24px rgba(0,194,199,0.25)",
-                  }}
-                  role="region"
-                  aria-label={`Video: ${song.title}`}
-                >
-                  <iframe
-                    src={song.videoUrl}
-                    title={`${song.title} video`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </Box>
+                <VideoEmbed
+                  url={song.videoUrl}
+                  title={`${song.title} video`}
+                  ariaLabel={`Video: ${song.title}`}
+                />
               </Box>
             )}
           </Box>
@@ -241,16 +241,58 @@ export default function SongDetailLayout({
               >
                 {sidebarTitle}
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Contact Hannah to discuss licensing, performance materials, and
-                pricing for your ensemble.
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
 
-              <ContactModal
-                songTitle={song.title}
-                contactEmail={contactEmail}
-              />
+              {song.price && (
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: 700, color: "secondary.dark", mb: 1.5 }}
+                >
+                  Price: {song.price}
+                </Typography>
+              )}
+
+              {purchaseLink ? (
+                <>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    Purchase performance materials for your ensemble through our
+                    licensing partner.
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <Button
+                    href={purchaseLink.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    fullWidth
+                    endIcon={<OpenInNewIcon />}
+                    aria-label={`Purchase ${song.title} on ${purchaseLink.host} (opens in a new tab)`}
+                  >
+                    Purchase
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    Contact Hannah to discuss licensing, performance materials,
+                    and pricing for your ensemble.
+                  </Typography>
+                  <Divider sx={{ mb: 2 }} />
+                  <ContactModal
+                    songTitle={song.title}
+                    contactEmail={contactEmail}
+                  />
+                </>
+              )}
 
               <NavButton
                 href="/contact"

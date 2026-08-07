@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import PageHero from "@/app/components/PageHero";
 import choralConductingImg from "@/app/images/choral-conducting.jpg";
 import { getGigs } from "@/lib/data";
+import VideoEmbed from "@/app/components/VideoEmbed";
 
 export const revalidate = 60;
 
@@ -117,23 +118,12 @@ export default async function ChoralDirectingPage() {
                 </Typography>
 
                 {gig.videoUrl && (
-                  <Box
-                    className="responsive-iframe-wrapper"
-                    sx={{
-                      borderRadius: 2,
-                      overflow: "hidden",
-                      boxShadow: "0 4px 20px rgba(0,194,199,0.22)",
-                    }}
-                    role="region"
-                    aria-label={`Video: ${gig.choirName}`}
-                  >
-                    <iframe
-                      src={gig.videoUrl}
-                      title={`${gig.choirName} performance video`}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </Box>
+                  <VideoEmbed
+                    url={gig.videoUrl}
+                    title={`${gig.choirName} performance video`}
+                    ariaLabel={`Video: ${gig.choirName}`}
+                    boxShadow="0 4px 20px rgba(0,194,199,0.22)"
+                  />
                 )}
               </CardContent>
             </Card>

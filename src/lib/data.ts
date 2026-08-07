@@ -12,6 +12,8 @@ export type Composition = {
   pdfPath3: string | null;
   videoUrl: string | null;
   audioUrl: string | null;
+  price: string | null;
+  purchaseUrl: string | null;
 };
 
 export type Arrangement = Composition & {
@@ -92,6 +94,8 @@ function mapSongRow(row: Row): Composition {
     pdfPath3: row.pdf_path_3 as string | null,
     videoUrl: row.video_url as string | null,
     audioUrl: row.audio_url as string | null,
+    price: row.price as string | null,
+    purchaseUrl: row.purchase_url as string | null,
   };
 }
 

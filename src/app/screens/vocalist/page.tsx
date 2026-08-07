@@ -11,7 +11,7 @@ import PageHero from "@/app/components/PageHero";
 import NavButton from "@/app/components/NavButton";
 import vocalistHeroImg from "@/app/images/vocalist.jpg";
 import { getSiteSettings, getVocalistAppearances } from "@/lib/data";
-import { toYouTubeEmbedUrl } from "@/lib/youtube";
+import VideoEmbed from "@/app/components/VideoEmbed";
 
 export const revalidate = 60;
 
@@ -67,22 +67,11 @@ export default async function VocalistPage() {
             ))}
 
             {settings.vocalistVideoUrl && (
-              <Box
-                className="responsive-iframe-wrapper"
-                sx={{
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  boxShadow: "0 4px 24px rgba(0,194,199,0.25)",
-                  mb: 3,
-                }}
-                role="region"
-                aria-label="Vocalist performance video"
-              >
-                <iframe
-                  src={toYouTubeEmbedUrl(settings.vocalistVideoUrl)}
+              <Box sx={{ mb: 3 }}>
+                <VideoEmbed
+                  url={settings.vocalistVideoUrl}
                   title="Hannah Kimball vocal performance"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
+                  ariaLabel="Vocalist performance video"
                 />
               </Box>
             )}

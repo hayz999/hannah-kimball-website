@@ -32,6 +32,8 @@ type Row = {
   pdf_path_3: string | null;
   video_url: string | null;
   audio_url: string | null;
+  price: string | null;
+  purchase_url: string | null;
 };
 
 type Form = {
@@ -40,6 +42,8 @@ type Form = {
   lyrics: string;
   voice_parts: string;
   video_url: string;
+  price: string;
+  purchase_url: string;
   pdf_path: string;
   pdf_file: File | null;
   pdf_clear: boolean;
@@ -60,6 +64,8 @@ const empty: Form = {
   lyrics: "",
   voice_parts: "",
   video_url: "",
+  price: "",
+  purchase_url: "",
   pdf_path: "",
   pdf_file: null,
   pdf_clear: false,
@@ -89,6 +95,8 @@ function toForm(row: Row): Form {
     lyrics: row.lyrics ?? "",
     voice_parts: vp.join(", "),
     video_url: row.video_url ?? "",
+    price: row.price ?? "",
+    purchase_url: row.purchase_url ?? "",
     pdf_path: row.pdf_path ?? "",
     pdf_file: null,
     pdf_clear: false,
@@ -137,6 +145,8 @@ function toBody(f: Form): FormData {
     ),
   );
   fd.set("video_url", f.video_url);
+  fd.set("price", f.price);
+  fd.set("purchase_url", f.purchase_url);
   appendFileField(fd, "pdf_path", f.pdf_path, f.pdf_file, f.pdf_clear);
   appendFileField(fd, "pdf_path_2", f.pdf_path_2, f.pdf_file_2, f.pdf_clear_2);
   appendFileField(fd, "pdf_path_3", f.pdf_path_3, f.pdf_file_3, f.pdf_clear_3);
@@ -217,6 +227,21 @@ export default function CompositionsAdminPage() {
         label="Video URL"
         value={form.video_url}
         onChange={set("video_url")}
+        fullWidth
+        size="small"
+      />
+      <TextField
+        label="Price (e.g. $3.50, optional)"
+        value={form.price}
+        onChange={set("price")}
+        fullWidth
+        size="small"
+      />
+      <TextField
+        label="Purchase URL (optional)"
+        helperText="If set, the sidebar links out to purchase instead of showing the contact form."
+        value={form.purchase_url}
+        onChange={set("purchase_url")}
         fullWidth
         size="small"
       />

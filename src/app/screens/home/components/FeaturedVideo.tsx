@@ -1,12 +1,14 @@
 import type { SiteSettings } from "@/lib/data";
 import { Box, Container, Divider, Typography } from "@mui/material";
-import { toYouTubeEmbedUrl } from "@/lib/youtube";
+import VideoEmbed from "@/app/components/VideoEmbed";
 
 export default function FeaturedVideo({
   settings,
 }: {
   settings: SiteSettings;
 }) {
+  if (!settings.featuredVideoUrl) return null;
+
   return (
     <Box
       component="section"
@@ -58,21 +60,12 @@ export default function FeaturedVideo({
         >
           {settings.featuredVideoDescription}
         </Typography>
-        <Box
-          className="responsive-iframe-wrapper animate-fade-in-up stagger-3"
-          sx={{
-            borderRadius: 2,
-            overflow: "hidden",
-            boxShadow: "0 8px 40px rgba(0,194,199,0.25)",
-          }}
-        >
-          <iframe
-            src={toYouTubeEmbedUrl(settings.featuredVideoUrl)}
-            title={settings.featuredVideoTitle}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </Box>
+        <VideoEmbed
+          url={settings.featuredVideoUrl}
+          title={settings.featuredVideoTitle}
+          boxShadow="0 8px 40px rgba(0,194,199,0.25)"
+          className="animate-fade-in-up stagger-3"
+        />
       </Container>
     </Box>
   );
