@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     siteName: "Hannah Kimball",
     type: "website",
   },
+  verification: {
+    google: "1n-cxCiKsqoOBqI_5AMxs4W8xbnL5V6q7cnTwEDdCSs",
+  },
 };
 
 export default function RootLayout({
