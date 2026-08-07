@@ -9,8 +9,17 @@ import { getArrangements } from "@/lib/data";
 
 export const revalidate = 60;
 
+const description =
+  "Browse choral and vocal arrangements by Hannah Kimball, available for performance and purchase.";
+
 export const metadata = {
-  title: "Arrangements | Hannah Kimball",
+  title: "Arrangements",
+  description,
+  openGraph: {
+    title: "Arrangements | Hannah Kimball",
+    description,
+    url: "/arrangements",
+  },
 };
 
 export default async function ArrangementsPage() {

@@ -18,10 +18,23 @@ export async function generateMetadata({
   const { id } = await params;
   const song = await getArrangement(id);
 
+  if (!song) {
+    return { title: "Arrangement Not Found" };
+  }
+
+  const description =
+    song.description ??
+    `${song.title}, a choral arrangement by Hannah Kimball.`;
+  const title = `${song.title} | Arrangements`;
+
   return {
-    title: song
-      ? `${song.title} | Arrangements | Hannah Kimball`
-      : "Arrangement Not Found",
+    title,
+    description,
+    openGraph: {
+      title: `${title} | Hannah Kimball`,
+      description,
+      url: `/arrangements/${id}`,
+    },
   };
 }
 

@@ -18,10 +18,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://hannahkimballmusic.com";
+const siteDescription =
+  "Official website of Hannah Kimball — composer, choral conductor, musician, and music educator based in Colorado.";
+
 export const metadata: Metadata = {
-  title: "Hannah Kimball | Composer, Musician & Choral Director",
-  description:
-    "Official website of Hannah Kimball —  composer, choral conductor, musician, and music educator based in Colorado.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Hannah Kimball | Composer, Musician & Choral Director",
+    template: "%s | Hannah Kimball",
+  },
+  description: siteDescription,
+  keywords: [
+    "Hannah Kimball",
+    "composer",
+    "choral director",
+    "choral conductor",
+    "vocalist",
+    "music educator",
+    "Colorado musician",
+    "mezzo soprano",
+  ],
+  openGraph: {
+    title: "Hannah Kimball | Composer, Musician & Choral Director",
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "Hannah Kimball",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

@@ -12,8 +12,17 @@ import VideoEmbed from "@/app/components/VideoEmbed";
 
 export const revalidate = 60;
 
+const description =
+  "Hannah Kimball's choral directing experience, including choirs led and past performances.";
+
 export const metadata = {
-  title: "Choral Directing | Hannah Kimball",
+  title: "Choral Directing",
+  description,
+  openGraph: {
+    title: "Choral Directing | Hannah Kimball",
+    description,
+    url: "/choral-directing",
+  },
 };
 
 function formatDateRange(start: string, end: string): string {

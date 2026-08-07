@@ -15,8 +15,17 @@ import VideoEmbed from "@/app/components/VideoEmbed";
 
 export const revalidate = 60;
 
+const description =
+  "Hannah Kimball's work as a vocalist, including performances, video features, and upcoming appearances.";
+
 export const metadata = {
-  title: "Vocalist | Hannah Kimball",
+  title: "Vocalist",
+  description,
+  openGraph: {
+    title: "Vocalist | Hannah Kimball",
+    description,
+    url: "/vocalist",
+  },
 };
 
 function formatAppearanceDate(dateStr: string): string {

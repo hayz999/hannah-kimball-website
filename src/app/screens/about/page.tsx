@@ -11,8 +11,13 @@ import { Card, CardContent } from "@mui/material";
 
 export const revalidate = 60;
 
+const description =
+  "Learn about Hannah Kimball's background, specialties, and education as a composer, choral director, and music educator based in Colorado.";
+
 export const metadata = {
-  title: "About | Hannah Kimball",
+  title: "About",
+  description,
+  openGraph: { title: "About | Hannah Kimball", description, url: "/about" },
 };
 
 export default async function AboutPage() {
